@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "Inter", ui-sans-serif, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Engineering accent — deep, sober blue */
+  --color-accent-50: #eef3fb;
+  --color-accent-100: #d6e3f5;
+  --color-accent-200: #adc7eb;
+  --color-accent-300: #7fa4dd;
+  --color-accent-400: #4f7ecb;
+  --color-accent-500: #2f5fb0;
+  --color-accent-600: #1f4790;
+  --color-accent-700: #1a3a75;
+  --color-accent-800: #172f5e;
+  --color-accent-900: #14274c;
+  --color-accent-950: #0c1830;
+
+  /* Signal colors */
+  --color-signal-dirty: #b45309;
+  --color-signal-clean: #15803d;
+  --color-signal-warn: #ea580c;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-slate-50);
+  color: var(--color-slate-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Data-plane texture utilities ---- */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-slate-400) 22%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-slate-400) 22%, transparent) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.bg-dots {
+  background-image: radial-gradient(color-mix(in srgb, var(--color-slate-400) 45%, transparent) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+.bg-blueprint {
+  background-color: var(--color-accent-950);
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-accent-200) 12%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-accent-200) 12%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* thin scrollbars for data tables */
+.scroll-thin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scroll-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scroll-thin::-webkit-scrollbar-thumb {
+  background-color: var(--color-slate-300);
+  border-radius: 999px;
+}
+
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+.animate-flow {
+  stroke-dasharray: 4 6;
+  animation: flow-dash 1.2s linear infinite;
+}
+
+/* Slow-drifting grid — gives accent panels a "live blueprint" feel */
+@keyframes grid-drift {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 32px 32px;
+  }
+}
+.bg-grid-animated {
+  animation: grid-drift 6s linear infinite;
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(220%);
+  }
+}
+.animate-sweep {
+  animation: sweep 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
