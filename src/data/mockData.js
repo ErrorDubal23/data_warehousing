@@ -16,10 +16,10 @@ export const CURSO = {
 
 export const EQUIPO = [
   "Dubal Antonio Aguilar Torres",
-  "Carlos Calbria Patiño",
-  "Angelo de Leon",
-  "Mateo Cisneros",
-  null,
+  "Carlos Miguel Calabria Patiño",
+  "Angelo de Leon Caneda",
+  "Mateo José Cisneros Galeano",
+  "Miguel Alejandro Cortés Núñez",
 ];
 
 // ---------------------------------------------------------------------------
