@@ -6,6 +6,8 @@ import { FACT_TABLE, DIMENSIONS } from "../../data/mockData";
 import SectionHeader from "../ui/SectionHeader";
 import Badge from "../ui/Badge";
 import ConceptIntro from "../ui/ConceptIntro";
+import PulseDot from "../ui/PulseDot";
+import AnimatedNumber from "../ui/AnimatedNumber";
 
 const ICONS = { package: Package, store: Store, calendar: Calendar, users: Users };
 
@@ -86,6 +88,7 @@ export default function Block4DataWarehouse() {
   const [phase, setPhase] = useState("concept");
   const expandedNode = useAppStore((s) => s.expandedNode);
   const toggleExpandedNode = useAppStore((s) => s.toggleExpandedNode);
+  const warehouse = useAppStore((s) => s.warehouse);
 
   const activeNode =
     expandedNode === "fact" ? FACT_TABLE : DIMENSIONS.find((d) => d.id === expandedNode) ?? null;
@@ -116,13 +119,21 @@ export default function Block4DataWarehouse() {
             transition={{ duration: 0.3 }}
             className="flex flex-col gap-6"
           >
-            <button
-              onClick={() => setPhase("concept")}
-              className="flex w-fit items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-slate-400 transition-colors hover:text-accent-700"
-            >
-              <BookOpen size={12} strokeWidth={2} />
-              Volver a la definición
-            </button>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <button
+                onClick={() => setPhase("concept")}
+                className="flex w-fit items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-slate-400 transition-colors hover:text-accent-700"
+              >
+                <BookOpen size={12} strokeWidth={2} />
+                Volver a la definición
+              </button>
+              {warehouse.length > 0 && (
+                <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-slate-500">
+                  <PulseDot color="var(--color-signal-clean)" />
+                  <AnimatedNumber value={warehouse.length} /> registros en el warehouse ahora mismo
+                </span>
+              )}
+            </div>
 
             <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-5">
               <div className="relative mx-auto aspect-square w-full max-w-md lg:col-span-3">

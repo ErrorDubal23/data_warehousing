@@ -1,8 +1,10 @@
 import { create } from "zustand";
 import { OLTP_SEED } from "../data/mockData";
 
+const OLAP_FILTERS_DEFAULT = { region: "Norte", producto: "Todos", trimestre: "T4 2025" };
+
 const TOTAL_SECONDS = 20 * 60;
-export const TOTAL_STEPS = 9;
+export const TOTAL_STEPS = 10;
 
 let nextTxId = OLTP_SEED.length + 1;
 
@@ -10,7 +12,7 @@ export const useAppStore = create((set, get) => ({
   // -------------------------------------------------------------------
   // Pipeline navigation
   // step 1: Portada, 2: Cronograma, 3: Tema, 4: Caso (Intro), 5: OLTP,
-  // 6: ETL, 7: DW, 8: OLAP, 9: Cierre
+  // 6: ETL, 7: DW, 8: OLAP, 9: Cierre, 10: Referencias
   // -------------------------------------------------------------------
   step: 1,
   goToStep: (step) => set({ step }),
@@ -41,10 +43,13 @@ export const useAppStore = create((set, get) => ({
   },
 
   // -------------------------------------------------------------------
-  // Block 3 — ETL pipeline sub-step
+  // Block 3 — ETL pipeline sub-step + resultado real del último run
   // -------------------------------------------------------------------
   etlStep: "extract", // extract | transform | load
   setEtlStep: (etlStep) => set({ etlStep }),
+  warehouse: [],
+  lastEtlReport: null,
+  setWarehouse: (rows, report) => set({ warehouse: rows, lastEtlReport: report ?? null }),
 
   // -------------------------------------------------------------------
   // Block 4 — Data Warehouse star schema
@@ -56,9 +61,25 @@ export const useAppStore = create((set, get) => ({
   // -------------------------------------------------------------------
   // Block 5 — OLAP filters
   // -------------------------------------------------------------------
-  olapFilters: { region: "Norte", producto: "Todos", trimestre: "T4 2025" },
+  olapFilters: { ...OLAP_FILTERS_DEFAULT },
   setOlapFilter: (key, value) =>
     set((s) => ({ olapFilters: { ...s.olapFilters, [key]: value } })),
   drillDown: false,
   toggleDrillDown: () => set((s) => ({ drillDown: !s.drillDown })),
+
+  // -------------------------------------------------------------------
+  // Reinicia la demo en vivo a su estado inicial (útil entre ensayos o
+  // secciones de clase) — inspirado en el botón "Reiniciar datos de demo".
+  // -------------------------------------------------------------------
+  resetDemo: () =>
+    set({
+      transactions: OLTP_SEED,
+      lastAddedId: null,
+      etlStep: "extract",
+      warehouse: [],
+      lastEtlReport: null,
+      expandedNode: null,
+      olapFilters: { ...OLAP_FILTERS_DEFAULT },
+      drillDown: false,
+    }),
 }));

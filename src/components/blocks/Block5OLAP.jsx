@@ -1,9 +1,23 @@
 import { useCallback, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { SlidersHorizontal, Rows3, TrendingUp, BookOpen } from "lucide-react";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+} from "recharts";
+import { SlidersHorizontal, Rows3, TrendingUp, BookOpen, Activity, ChartPie } from "lucide-react";
 import { useAppStore } from "../../store/useAppStore";
 import { OLAP_DATA, REGIONES, TRIMESTRES, MESES_POR_TRIMESTRE } from "../../data/mockData";
+import { mapWarehouseToOlapRows } from "../../lib/etl";
 import Panel from "../ui/Panel";
 import SectionHeader from "../ui/SectionHeader";
 import Button from "../ui/Button";
@@ -11,6 +25,18 @@ import ConceptIntro from "../ui/ConceptIntro";
 import AnimatedNumber from "../ui/AnimatedNumber";
 
 const PRODUCTOS_OLAP = ["Todos", "Lácteos", "Bebidas", "Abarrotes", "Limpieza", "Panadería"];
+
+// Fixed categorical order — validated 5-slot palette (blue/orange/aqua/yellow/magenta),
+// assigned once per category and never re-cycled by filter state.
+const CATEGORY_COLORS = {
+  Lácteos: "#2a78d6",
+  Bebidas: "#eb6834",
+  Abarrotes: "#1baf7a",
+  Limpieza: "#eda100",
+  Panadería: "#e87ba4",
+};
+
+const MESES_CRONOLOGICOS = TRIMESTRES.flatMap((t) => MESES_POR_TRIMESTRE[t]);
 
 const usd = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
 
@@ -43,12 +69,30 @@ function CustomTooltip({ active, payload, label }) {
   );
 }
 
+function CategoryTooltip({ active, payload }) {
+  if (!active || !payload?.length) return null;
+  const { name, value } = payload[0];
+  return (
+    <div className="border border-slate-200 bg-white px-3 py-2 shadow-sm">
+      <p className="font-mono text-[11px] uppercase tracking-wider text-slate-400">{name}</p>
+      <p className="font-display text-sm font-bold text-slate-900">{usd(value)}</p>
+    </div>
+  );
+}
+
 export default function Block5OLAP() {
   const [phase, setPhase] = useState("concept");
   const filters = useAppStore((s) => s.olapFilters);
   const setOlapFilter = useAppStore((s) => s.setOlapFilter);
   const drillDown = useAppStore((s) => s.drillDown);
   const toggleDrillDown = useAppStore((s) => s.toggleDrillDown);
+  const warehouse = useAppStore((s) => s.warehouse);
+
+  // El histórico curado (OLAP_DATA) le da sustancia a la tendencia trimestral;
+  // las ventas registradas en vivo durante la charla se suman encima, así una
+  // venta que acabas de registrar en OLTP mueve de verdad este número.
+  const liveContribution = useMemo(() => mapWarehouseToOlapRows(warehouse), [warehouse]);
+  const effectiveData = useMemo(() => [...OLAP_DATA, ...liveContribution], [liveContribution]);
 
   const matches = useCallback(
     (row) => row.region === filters.region && (filters.producto === "Todos" || row.producto === filters.producto),
@@ -61,7 +105,7 @@ export default function Block5OLAP() {
       if (isSelected && drillDown) {
         return MESES_POR_TRIMESTRE[trimestre].map((mes) => ({
           name: mes,
-          ventas: OLAP_DATA.filter((r) => matches(r) && r.trimestre === trimestre && r.mes === mes).reduce(
+          ventas: effectiveData.filter((r) => matches(r) && r.trimestre === trimestre && r.mes === mes).reduce(
             (a, r) => a + r.ventas,
             0
           ),
@@ -71,17 +115,42 @@ export default function Block5OLAP() {
       return [
         {
           name: trimestre,
-          ventas: OLAP_DATA.filter((r) => matches(r) && r.trimestre === trimestre).reduce((a, r) => a + r.ventas, 0),
+          ventas: effectiveData.filter((r) => matches(r) && r.trimestre === trimestre).reduce((a, r) => a + r.ventas, 0),
           selected: isSelected,
         },
       ];
     });
-  }, [filters, drillDown, matches]);
+  }, [filters, drillDown, matches, effectiveData]);
 
   const heroTotal = useMemo(
-    () => OLAP_DATA.filter((r) => matches(r) && r.trimestre === filters.trimestre).reduce((a, r) => a + r.ventas, 0),
-    [filters, matches]
+    () =>
+      effectiveData.filter((r) => matches(r) && r.trimestre === filters.trimestre).reduce((a, r) => a + r.ventas, 0),
+    [filters, matches, effectiveData]
   );
+
+  // Tendencia mensual — respeta región/producto pero recorre el año completo,
+  // independiente del trimestre seleccionado (esa acotación ya la cubre el bar chart).
+  const monthlyTrend = useMemo(
+    () =>
+      MESES_CRONOLOGICOS.map((mes) => ({
+        mes,
+        ventas: effectiveData.filter((r) => matches(r) && r.mes === mes).reduce((a, r) => a + r.ventas, 0),
+      })),
+    [matches, effectiveData]
+  );
+
+  // Participación por categoría — respeta región/trimestre; ignora el filtro de
+  // producto a propósito, para poder mostrar cómo se reparte el total entre categorías.
+  const categoryShare = useMemo(() => {
+    const byCategoria = effectiveData.filter((r) => r.region === filters.region && r.trimestre === filters.trimestre).reduce(
+      (acc, r) => {
+        acc[r.producto] = (acc[r.producto] ?? 0) + r.ventas;
+        return acc;
+      },
+      {}
+    );
+    return Object.entries(byCategoria).map(([producto, ventas]) => ({ name: producto, value: ventas }));
+  }, [filters.region, filters.trimestre, effectiveData]);
 
   return (
     <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10">
@@ -209,6 +278,84 @@ export default function Block5OLAP() {
                   </ResponsiveContainer>
                 </Panel>
               </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+              <Panel accent="accent-600" className="p-5">
+                <div className="mb-4 flex items-center gap-2">
+                  <Activity size={16} className="text-accent-700" strokeWidth={2} />
+                  <h3 className="font-display text-sm font-bold text-slate-900">Tendencia mensual</h3>
+                </div>
+                <ResponsiveContainer width="100%" height={260}>
+                  <LineChart data={monthlyTrend} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--color-slate-200)" vertical={false} />
+                    <XAxis
+                      dataKey="mes"
+                      tickFormatter={(m) => m.slice(0, 3)}
+                      tick={{ fontFamily: "JetBrains Mono", fontSize: 10, fill: "var(--color-slate-500)" }}
+                      axisLine={{ stroke: "var(--color-slate-300)" }}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      tick={{ fontFamily: "JetBrains Mono", fontSize: 10, fill: "var(--color-slate-500)" }}
+                      axisLine={false}
+                      tickLine={false}
+                      tickFormatter={(v) => `$${Math.round(v / 1000)}k`}
+                      width={44}
+                    />
+                    <Tooltip content={<CustomTooltip />} cursor={{ stroke: "var(--color-slate-300)" }} />
+                    <Line
+                      type="monotone"
+                      dataKey="ventas"
+                      stroke="var(--color-accent-600)"
+                      strokeWidth={2}
+                      dot={{ r: 3, fill: "var(--color-accent-600)", strokeWidth: 0 }}
+                      activeDot={{ r: 5 }}
+                      animationDuration={500}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </Panel>
+
+              <Panel accent="accent-600" className="p-5">
+                <div className="mb-4 flex items-center gap-2">
+                  <ChartPie size={16} className="text-accent-700" strokeWidth={2} />
+                  <h3 className="font-display text-sm font-bold text-slate-900">Participación por categoría</h3>
+                </div>
+                <div className="flex flex-col items-center gap-3 sm:flex-row">
+                  <ResponsiveContainer width="100%" height={220} className="sm:flex-1">
+                    <PieChart>
+                      <Tooltip content={<CategoryTooltip />} />
+                      <Pie
+                        data={categoryShare}
+                        dataKey="value"
+                        nameKey="name"
+                        innerRadius={50}
+                        outerRadius={80}
+                        paddingAngle={2}
+                        stroke="#ffffff"
+                        strokeWidth={2}
+                        animationDuration={500}
+                      >
+                        {categoryShare.map((entry) => (
+                          <Cell key={entry.name} fill={CATEGORY_COLORS[entry.name] ?? "var(--color-slate-300)"} />
+                        ))}
+                      </Pie>
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <ul className="flex flex-col gap-1.5 sm:w-40">
+                    {categoryShare.map((entry) => (
+                      <li key={entry.name} className="flex items-center gap-2 text-xs text-slate-600">
+                        <span
+                          className="h-2.5 w-2.5 shrink-0 rounded-full"
+                          style={{ backgroundColor: CATEGORY_COLORS[entry.name] ?? "var(--color-slate-300)" }}
+                        />
+                        {entry.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Panel>
             </div>
           </motion.div>
         )}

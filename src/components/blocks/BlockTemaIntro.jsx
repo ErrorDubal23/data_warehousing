@@ -25,7 +25,7 @@ export default function BlockTemaIntro() {
 
       <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <Panel accent="accent-600" texture="dots" className="p-6">
-          <p className="text-sm leading-relaxed text-slate-700 sm:text-base">
+          <p className="text-base leading-relaxed text-slate-700 sm:text-lg">
             El <strong className="text-slate-900">Data Warehousing</strong> es la disciplina de la ingeniería de
             datos que consolida información dispersa en múltiples sistemas operacionales dentro de un repositorio
             centralizado, modelado específicamente para el análisis. Su objetivo no es procesar transacciones, sino
@@ -59,8 +59,8 @@ export default function BlockTemaIntro() {
                   <div className="flex h-9 w-9 items-center justify-center rounded-full border border-accent-600 bg-white text-accent-700">
                     <Icon size={16} strokeWidth={2} />
                   </div>
-                  <p className="font-display text-sm font-bold text-slate-900">{p.nombre}</p>
-                  <p className="text-xs leading-relaxed text-slate-500">{p.detalle}</p>
+                  <p className="font-display text-base font-bold text-slate-900">{p.nombre}</p>
+                  <p className="text-sm leading-relaxed text-slate-500">{p.detalle}</p>
                 </Panel>
                 {i < PILARES.length - 1 && (
                   <div className="hidden items-center text-slate-300 md:flex">

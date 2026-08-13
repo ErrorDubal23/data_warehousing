@@ -22,6 +22,68 @@ export const EQUIPO = [
   null,
 ];
 
+// ---------------------------------------------------------------------------
+// Referencias — fuentes técnicas consultadas para construir el contenido
+// ---------------------------------------------------------------------------
+export const REFERENCIAS = [
+  {
+    categoria: "OLTP",
+    autor: "IBM",
+    anio: "s.f.",
+    titulo: "What is OLTP (Online Transaction Processing)?",
+    url: "https://www.ibm.com/think/topics/oltp",
+  },
+  {
+    categoria: "OLTP vs. OLAP",
+    autor: "IBM",
+    anio: "s.f.",
+    titulo: "OLAP vs. OLTP: What's the Difference?",
+    url: "https://www.ibm.com/think/topics/olap-vs-oltp",
+  },
+  {
+    categoria: "ETL",
+    autor: "Amazon Web Services",
+    anio: "s.f.",
+    titulo: "What is ETL? — Extract, Transform, Load Explained",
+    url: "https://aws.amazon.com/what-is/etl/",
+  },
+  {
+    categoria: "Data Warehouse",
+    autor: "Oracle",
+    anio: "s.f.",
+    titulo: "What Is a Data Warehouse?",
+    url: "https://www.oracle.com/database/what-is-a-data-warehouse/",
+  },
+  {
+    categoria: "Data Warehouse",
+    autor: "Amazon Web Services",
+    anio: "s.f.",
+    titulo: "What is a Data Warehouse?",
+    url: "https://aws.amazon.com/what-is/data-warehouse/",
+  },
+  {
+    categoria: "Modelado dimensional",
+    autor: "Kimball Group",
+    anio: "2003",
+    titulo: "Fact Tables and Dimension Tables",
+    url: "https://www.kimballgroup.com/2003/01/fact-tables-and-dimension-tables/",
+  },
+  {
+    categoria: "Modelado dimensional",
+    autor: "Kimball Group",
+    anio: "s.f.",
+    titulo: "Star Schema / OLAP Cube — Dimensional Modeling Techniques",
+    url: "https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/star-schema-olap-cube/",
+  },
+  {
+    categoria: "OLAP",
+    autor: "IBM",
+    anio: "s.f.",
+    titulo: "What is OLAP (Online Analytical Processing)?",
+    url: "https://www.ibm.com/think/topics/olap",
+  },
+];
+
 export const AGENDA = [
   {
     icon: "flag",
@@ -69,12 +131,14 @@ export const SUCURSALES = [
   { id: "SUC-E1", nombre: "Sucursal Este 1", region: "Este" },
 ];
 
+// precioUnitario (USD) alimenta el cálculo real de montos cuando una venta
+// registrada en vivo en OLTP entra al pipeline de ETL — ver src/lib/etl.js.
 export const PRODUCTOS = [
-  { id: "PRD-001", nombre: "Leche Entera 1L", categoria: "Lácteos", marca: "ProCampo" },
-  { id: "PRD-002", nombre: "Bebida Cola 1.5L", categoria: "Bebidas", marca: "FreshCola" },
-  { id: "PRD-003", nombre: "Arroz Grado 1 1kg", categoria: "Abarrotes", marca: "Sureño" },
-  { id: "PRD-004", nombre: "Detergente 3kg", categoria: "Limpieza", marca: "Limpex" },
-  { id: "PRD-005", nombre: "Pan de Molde", categoria: "Panadería", marca: "Trigal" },
+  { id: "PRD-001", nombre: "Leche Entera 1L", categoria: "Lácteos", marca: "ProCampo", precioUnitario: 4.3 },
+  { id: "PRD-002", nombre: "Bebida Cola 1.5L", categoria: "Bebidas", marca: "FreshCola", precioUnitario: 2.3 },
+  { id: "PRD-003", nombre: "Arroz Grado 1 1kg", categoria: "Abarrotes", marca: "Sureño", precioUnitario: 2.9 },
+  { id: "PRD-004", nombre: "Detergente 3kg", categoria: "Limpieza", marca: "Limpex", precioUnitario: 6.5 },
+  { id: "PRD-005", nombre: "Pan de Molde", categoria: "Panadería", marca: "Trigal", precioUnitario: 1.6 },
 ];
 
 // Transactions already "captured" before the demo starts, so the OLTP
@@ -99,14 +163,9 @@ export const ETL_DIRTY = [
   { id: "a5", fecha: "2025.09.17", sucursal: "Sucursal Este 1", producto: "Pan de Molde", monto: "USD 24.10", cantidad: 15 },
 ];
 
-// ETL — Transform + Load: same records, standardized to ISO-8601 dates,
-// unified USD amounts, deduplicated, and mapped to canonical branch codes.
-export const ETL_CLEAN = [
-  { id: "a1", fecha: "2025-09-14", sucursal: "SUC-N1", producto: "PRD-001", monto: 52.4, cantidad: 12 },
-  { id: "a3", fecha: "2025-09-15", sucursal: "SUC-C1", producto: "PRD-003", monto: 58.3, cantidad: 20 },
-  { id: "a4", fecha: "2025-09-16", sucursal: "SUC-S1", producto: "PRD-002", monto: 66.7, cantidad: 30 },
-  { id: "a5", fecha: "2025-09-17", sucursal: "SUC-E1", producto: "PRD-005", monto: 24.1, cantidad: 15 },
-];
+// Nota: la versión limpia de ETL_DIRTY ya no se hardcodea — se calcula en vivo
+// con runETL(ETL_DIRTY) desde src/lib/etl.js, así hay una sola fuente de verdad
+// para la lógica de transformación (fechas, montos, duplicados).
 
 // ---------------------------------------------------------------------------
 // Data Warehouse — Star schema (Kimball): one fact table, four dimensions.

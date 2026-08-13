@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Server, ArrowRight, TriangleAlert } from "lucide-react";
+import { Server, ArrowRight, TriangleAlert, FileSpreadsheet, Hourglass, Compass } from "lucide-react";
 import { useAppStore } from "../../store/useAppStore";
 import Button from "../ui/Button";
 import Panel from "../ui/Panel";
@@ -9,6 +9,21 @@ const SUCURSALES_SILO = [
   { nombre: "Sucursal Norte", detalle: "Fechas en DD/MM/AAAA", moneda: "Precios en CLP" },
   { nombre: "Sucursal Centro", detalle: "Fechas en MM-DD-AAAA", moneda: "Precios en USD" },
   { nombre: "Sucursal Sur", detalle: "Fechas en AAAA.MM.DD", moneda: "Precios sin moneda" },
+];
+
+const CONSECUENCIAS = [
+  {
+    icon: FileSpreadsheet,
+    texto: "Los reportes gerenciales se arman a mano, cruzando exports de Excel de cada sucursal.",
+  },
+  {
+    icon: Hourglass,
+    texto: "Una consulta histórica simple puede tomar días en vez de minutos.",
+  },
+  {
+    icon: Compass,
+    texto: "Las decisiones de inventario y expansión se basan en intuición, no en datos consolidados.",
+  },
 ];
 
 export default function Block1Intro() {
@@ -21,12 +36,23 @@ export default function Block1Intro() {
   };
 
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-12 px-6 py-10">
+    <div className="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-10">
       <SectionHeader
         kicker="Caso de estudio · Cadena de retail"
         title="Multimarket"
         subtitle="Datos aislados en silos operacionales. Imposibilidad de responder preguntas estratégicas."
       />
+
+      <motion.p
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="max-w-3xl text-base leading-relaxed text-slate-600"
+      >
+        Multimarket es una cadena de retail con presencia en cuatro regiones del país. Cada sucursal opera de forma
+        autónoma: su propio punto de venta, su propio formato de fecha, su propia forma de registrar precios — sin
+        ningún tipo de integración entre sí.
+      </motion.p>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         {SUCURSALES_SILO.map((suc, i) => (
@@ -34,7 +60,7 @@ export default function Block1Intro() {
             key={suc.nombre}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 + i * 0.1 }}
+            transition={{ delay: 0.2 + i * 0.1 }}
           >
             <Panel accent="signal-dirty" texture="dots" className="flex h-full flex-col gap-3 p-5">
               <div className="flex items-center justify-between">
@@ -61,7 +87,26 @@ export default function Block1Intro() {
         ))}
       </div>
 
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+      <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }}>
+        <Panel accent="signal-warn" className="p-5">
+          <p className="mb-3 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+            El costo de operar así
+          </p>
+          <ul className="flex flex-col gap-3">
+            {CONSECUENCIAS.map((c) => {
+              const Icon = c.icon;
+              return (
+                <li key={c.texto} className="flex items-start gap-3">
+                  <Icon size={16} className="mt-0.5 shrink-0 text-signal-warn" strokeWidth={2} />
+                  <span className="text-sm leading-relaxed text-slate-700">{c.texto}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </Panel>
+      </motion.div>
+
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
         <Panel accent="accent-600" tone="slate" texture="grid-animated" className="p-8">
           <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent-600">
             La pregunta que nadie puede responder
@@ -75,7 +120,7 @@ export default function Block1Intro() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.7 }}
+        transition={{ delay: 0.9 }}
         className="flex justify-center"
       >
         <Button variant="primary" icon={ArrowRight} onClick={handleStart}>

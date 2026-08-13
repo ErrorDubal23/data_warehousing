@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
-import { Database, PlusCircle, BookOpen } from "lucide-react";
+import { Database, PlusCircle, BookOpen, RotateCcw } from "lucide-react";
 import { useAppStore } from "../../store/useAppStore";
 import { PRODUCTOS, SUCURSALES } from "../../data/mockData";
 import Button from "../ui/Button";
@@ -31,6 +31,7 @@ export default function Block2OLTP() {
   const transactions = useAppStore((s) => s.transactions);
   const lastAddedId = useAppStore((s) => s.lastAddedId);
   const addTransaction = useAppStore((s) => s.addTransaction);
+  const resetDemo = useAppStore((s) => s.resetDemo);
 
   const {
     register,
@@ -72,13 +73,23 @@ export default function Block2OLTP() {
             transition={{ duration: 0.3 }}
             className="flex flex-col gap-4"
           >
-            <button
-              onClick={() => setPhase("concept")}
-              className="flex w-fit items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-slate-400 transition-colors hover:text-accent-700"
-            >
-              <BookOpen size={12} strokeWidth={2} />
-              Volver a la definición
-            </button>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <button
+                onClick={() => setPhase("concept")}
+                className="flex w-fit items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-slate-400 transition-colors hover:text-accent-700"
+              >
+                <BookOpen size={12} strokeWidth={2} />
+                Volver a la definición
+              </button>
+              <button
+                onClick={resetDemo}
+                title="Vuelve el OLTP, el ETL y el OLAP al estado inicial de la demo"
+                className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-slate-400 transition-colors hover:text-signal-warn"
+              >
+                <RotateCcw size={12} strokeWidth={2} />
+                Reiniciar datos de demo
+              </button>
+            </div>
 
             <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
               <div className="lg:col-span-2">

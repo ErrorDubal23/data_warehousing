@@ -1,14 +1,16 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Download, Wand2, UploadCloud, Boxes, ArrowRight, CircleCheck, Copy, BookOpen } from "lucide-react";
 import { useAppStore } from "../../store/useAppStore";
-import { ETL_DIRTY, ETL_CLEAN, PRODUCTOS, SUCURSALES } from "../../data/mockData";
+import { ETL_DIRTY, PRODUCTOS, SUCURSALES, OLTP_SEED } from "../../data/mockData";
+import { runETL, toDirtyRow } from "../../lib/etl";
 import Button from "../ui/Button";
 import Panel from "../ui/Panel";
 import DataTable from "../ui/DataTable";
 import Badge from "../ui/Badge";
 import SectionHeader from "../ui/SectionHeader";
 import ConceptIntro from "../ui/ConceptIntro";
+import AnimatedNumber from "../ui/AnimatedNumber";
 
 const STEPS = [
   { key: "extract", label: "Extraer", icon: Download },
@@ -67,19 +69,48 @@ function SweepOverlay({ active }) {
   );
 }
 
+function MetricTile({ label, value }) {
+  return (
+    <div className="flex flex-col gap-1 border border-slate-200 bg-white px-4 py-3">
+      <span className="font-mono text-[10px] uppercase tracking-wider text-slate-400">{label}</span>
+      <span className="font-display text-2xl font-bold text-slate-900">
+        <AnimatedNumber value={value} />
+      </span>
+    </div>
+  );
+}
+
 export default function Block3ETL() {
   const [phase, setPhase] = useState("concept");
   const etlStep = useAppStore((s) => s.etlStep);
   const setEtlStep = useAppStore((s) => s.setEtlStep);
   const next = useAppStore((s) => s.next);
+  const transactions = useAppStore((s) => s.transactions);
+  const setWarehouse = useAppStore((s) => s.setWarehouse);
   const [transformed, setTransformed] = useState(false);
   const [sweeping, setSweeping] = useState(false);
   const [loaded, setLoaded] = useState(false);
+
+  // Cualquier venta registrada en vivo en el Bloque OLTP (más allá de la
+  // semilla) entra al lote crudo de extracción, con el mismo desorden que las
+  // filas pedagógicas — así el pipeline queda realmente conectado de punta a punta.
+  const rawPool = useMemo(() => {
+    const liveRows = transactions.filter((t) => t.id > OLTP_SEED.length).map(toDirtyRow);
+    return [...ETL_DIRTY, ...liveRows];
+  }, [transactions]);
+
+  const { cleaned, report } = useMemo(() => runETL(rawPool), [rawPool]);
+  const survivorIds = useMemo(() => new Set(cleaned.map((r) => r.id)), [cleaned]);
 
   const handleTransformToggle = () => {
     setSweeping(true);
     setTransformed((v) => !v);
     setTimeout(() => setSweeping(false), 750);
+  };
+
+  const handleLoad = () => {
+    setWarehouse(cleaned, report);
+    setLoaded(true);
   };
 
   const dirtyColumns = [
@@ -146,12 +177,14 @@ export default function Block3ETL() {
                   <div className="flex items-center gap-2">
                     <Badge tone="dirty">Datos crudos</Badge>
                     <span className="text-sm text-slate-500">
-                      Formatos de fecha mixtos, monedas distintas y un registro duplicado.
+                      {rawPool.length > ETL_DIRTY.length
+                        ? `Formatos de fecha mixtos, monedas distintas y ${rawPool.length - ETL_DIRTY.length} venta(s) registradas en vivo en OLTP.`
+                        : "Formatos de fecha mixtos, monedas distintas y un registro duplicado."}
                     </span>
                   </div>
                   <div className="border-2 border-dashed border-orange-300 bg-orange-50/30 p-1">
                     <DataTable columns={dirtyColumns}>
-                      {ETL_DIRTY.map((row) => (
+                      {rawPool.map((row) => (
                         <tr key={row.id}>
                           <td className="px-4 py-2.5 font-mono text-xs text-orange-700">{row.fecha}</td>
                           <td className="px-4 py-2.5 text-sm text-slate-700">{row.sucursal}</td>
@@ -160,7 +193,7 @@ export default function Block3ETL() {
                           <td className="px-4 py-2.5 font-mono text-sm text-slate-700">
                             <div className="flex items-center gap-1.5">
                               {row.cantidad}
-                              {row.id === "a2" && (
+                              {!survivorIds.has(row.id) && (
                                 <span title="Duplicado">
                                   <Copy size={12} className="text-signal-warn" />
                                 </span>
@@ -194,7 +227,7 @@ export default function Block3ETL() {
                       </Badge>
                       <span className="text-sm text-slate-500">
                         {transformed
-                          ? "Fechas en ISO-8601, montos unificados en USD, duplicado eliminado."
+                          ? "Fechas en ISO-8601, montos unificados en USD, duplicados eliminados."
                           : "Ejecuta la transformación para estandarizar el lote."}
                       </span>
                     </div>
@@ -202,6 +235,23 @@ export default function Block3ETL() {
                       {transformed ? "Deshacer" : "Ejecutar transformación"}
                     </Button>
                   </div>
+
+                  <AnimatePresence>
+                    {transformed && (
+                      <motion.div
+                        key="report"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="grid grid-cols-2 gap-3 overflow-hidden sm:grid-cols-4"
+                      >
+                        <MetricTile label="Filas crudas" value={report.rawRows} />
+                        <MetricTile label="Filas limpias" value={report.cleanedRows} />
+                        <MetricTile label="Duplicados removidos" value={report.removedDuplicates} />
+                        <MetricTile label="Inválidos removidos" value={report.removedInvalid} />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
                   <div
                     className={`relative overflow-hidden ${
@@ -221,7 +271,7 @@ export default function Block3ETL() {
                           transition={{ duration: 0.35 }}
                         >
                           <DataTable columns={dirtyColumns}>
-                            {ETL_DIRTY.map((row) => (
+                            {rawPool.map((row) => (
                               <tr key={row.id}>
                                 <td className="px-4 py-2.5 font-mono text-xs text-orange-700">{row.fecha}</td>
                                 <td className="px-4 py-2.5 text-sm text-slate-700">{row.sucursal}</td>
@@ -241,7 +291,7 @@ export default function Block3ETL() {
                           transition={{ duration: 0.4 }}
                         >
                           <DataTable columns={cleanColumns}>
-                            {ETL_CLEAN.map((row, i) => (
+                            {cleaned.map((row, i) => (
                               <motion.tr
                                 key={row.id}
                                 initial={{ opacity: 0, x: 10 }}
@@ -291,7 +341,7 @@ export default function Block3ETL() {
                       >
                         <Panel accent="signal-clean" className="p-1">
                           <DataTable columns={cleanColumns} dense maxHeight="12rem">
-                            {ETL_CLEAN.map((row) => (
+                            {cleaned.map((row) => (
                               <tr key={row.id}>
                                 <td className="px-3 py-2 font-mono text-xs text-emerald-700">{row.fecha}</td>
                                 <td className="px-3 py-2 text-xs text-slate-700">{nombreSucursal(row.sucursal)}</td>
@@ -317,7 +367,7 @@ export default function Block3ETL() {
                           <CircleCheck size={30} strokeWidth={1.5} />
                         </div>
                         <p className="font-display text-lg font-bold text-slate-900">
-                          {ETL_CLEAN.length} registros cargados en el Data Warehouse
+                          {cleaned.length} registros cargados en el Data Warehouse
                         </p>
                         <p className="max-w-sm text-sm text-slate-500">
                           Los datos ya están disponibles en el modelo dimensional, listos para ser analizados.
@@ -340,7 +390,7 @@ export default function Block3ETL() {
                   </motion.div>
 
                   {!loaded ? (
-                    <Button variant="primary" icon={UploadCloud} onClick={() => setLoaded(true)}>
+                    <Button variant="primary" icon={UploadCloud} onClick={handleLoad}>
                       Cargar en el Data Warehouse
                     </Button>
                   ) : (

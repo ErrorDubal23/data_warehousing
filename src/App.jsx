@@ -11,6 +11,8 @@ import Block3ETL from "./components/blocks/Block3ETL";
 import Block4DataWarehouse from "./components/blocks/Block4DataWarehouse";
 import Block5OLAP from "./components/blocks/Block5OLAP";
 import Block6Closing from "./components/blocks/Block6Closing";
+import BlockReferencias from "./components/blocks/BlockReferencias";
+import AmbientBackground from "./components/ui/AmbientBackground";
 
 const BLOCKS = {
   1: BlockPortada,
@@ -22,19 +24,22 @@ const BLOCKS = {
   7: Block4DataWarehouse,
   8: Block5OLAP,
   9: Block6Closing,
+  10: BlockReferencias,
 };
 
 // Alternates white / slate-50 between steps to simulate processing "layers".
+// Kept semi-transparent so the ambient network drifts through the whitespace.
 const BG_BY_STEP = {
-  1: "bg-slate-50",
-  2: "bg-white",
-  3: "bg-slate-50",
-  4: "bg-white",
-  5: "bg-slate-50",
-  6: "bg-white",
-  7: "bg-slate-50",
-  8: "bg-white",
-  9: "bg-slate-50",
+  1: "bg-slate-50/60",
+  2: "bg-white/60",
+  3: "bg-slate-50/60",
+  4: "bg-white/60",
+  5: "bg-slate-50/60",
+  6: "bg-white/60",
+  7: "bg-slate-50/60",
+  8: "bg-white/60",
+  9: "bg-slate-50/60",
+  10: "bg-white/60",
 };
 
 // Steps 1–4 (portada, cronograma, tema, caso) each carry their own centered
@@ -77,8 +82,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white">
+      <AmbientBackground />
       <Block0PipelineBar />
-      <main className={`min-h-screen pt-16 transition-colors duration-500 ${BG_BY_STEP[step]}`}>
+      <main className={`relative z-10 min-h-screen pt-16 transition-colors duration-500 ${BG_BY_STEP[step]}`}>
         <AnimatePresence mode="wait">
           <motion.div
             key={step}

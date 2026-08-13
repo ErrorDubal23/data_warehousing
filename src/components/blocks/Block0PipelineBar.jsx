@@ -42,15 +42,10 @@ export default function Block0PipelineBar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-6">
-        <div className="flex items-baseline gap-2">
-          <span className="font-display text-lg font-bold tracking-tight text-slate-900">Multimarket</span>
-          <span className="hidden font-mono text-[11px] uppercase tracking-[0.15em] text-slate-400 sm:inline">
-            Data Pipeline
-          </span>
-        </div>
+      <div className="mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-6 px-6">
+        <div aria-hidden="true" />
 
-        <nav className="hidden flex-1 items-center justify-center md:flex">
+        <nav className="hidden items-center justify-center md:flex">
           <ol className="flex items-center">
             {STAGES.map((stage, i) => {
               const status = stageStatus(step, stage.step);
@@ -109,7 +104,7 @@ export default function Block0PipelineBar() {
         <motion.div
           animate={warning ? { scale: [1, 1.06, 1] } : { scale: 1 }}
           transition={warning ? { duration: 1, repeat: Infinity, ease: "easeInOut" } : { duration: 0.2 }}
-          className={`flex items-center gap-2 rounded-sm border px-3 py-1.5 font-mono text-sm font-semibold tabular-nums transition-colors duration-300 ${
+          className={`flex items-center justify-self-end gap-2 rounded-sm border px-3 py-1.5 font-mono text-sm font-semibold tabular-nums transition-colors duration-300 ${
             warning
               ? "border-orange-300 bg-orange-50 text-orange-700"
               : "border-slate-200 bg-slate-50 text-slate-700"

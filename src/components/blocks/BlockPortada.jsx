@@ -4,6 +4,7 @@ import { useAppStore } from "../../store/useAppStore";
 import { CURSO, EQUIPO } from "../../data/mockData";
 import Button from "../ui/Button";
 import Panel from "../ui/Panel";
+import PulseDot from "../ui/PulseDot";
 import logoUninorte from "../../assets/logo-uninorte.png";
 
 export default function BlockPortada() {
@@ -17,7 +18,7 @@ export default function BlockPortada() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="h-16 w-auto"
+        className="h-28 w-auto sm:h-32"
       />
 
       <motion.div
@@ -26,13 +27,19 @@ export default function BlockPortada() {
         transition={{ delay: 0.1 }}
         className="flex flex-col gap-2"
       >
-        <span className="font-mono text-xs font-medium uppercase tracking-[0.25em] text-accent-600">
+        <span className="flex items-center justify-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.25em] text-accent-600">
+          <PulseDot color="var(--color-accent-600)" />
           {CURSO.materia} · {CURSO.universidad}
         </span>
-        <h1 className="font-display text-5xl font-bold tracking-tight text-slate-900 sm:text-6xl">
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.15, type: "spring", stiffness: 240, damping: 20 }}
+          className="font-display text-6xl font-bold tracking-tight text-slate-900 sm:text-7xl"
+        >
           {CURSO.titulo}
-        </h1>
-        <p className="mx-auto max-w-xl text-base leading-relaxed text-slate-600">{CURSO.subtitulo}</p>
+        </motion.h1>
+        <p className="mx-auto max-w-xl text-lg leading-relaxed text-slate-600">{CURSO.subtitulo}</p>
       </motion.div>
 
       <motion.div

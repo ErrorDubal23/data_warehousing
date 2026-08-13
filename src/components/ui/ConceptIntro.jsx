@@ -20,9 +20,9 @@ export default function ConceptIntro({ definition, application, ctaLabel = "Come
             <div className="flex items-center gap-2">
               <span className="font-mono text-[11px] font-semibold text-slate-400">01</span>
               <BookOpen size={16} className="text-slate-500" strokeWidth={2} />
-              <h3 className="font-display text-sm font-bold uppercase tracking-wide text-slate-700">Definición</h3>
+              <h3 className="font-display text-base font-bold uppercase tracking-wide text-slate-700">Definición</h3>
             </div>
-            <p className="text-sm leading-relaxed text-slate-600">{definition}</p>
+            <p className="text-base leading-relaxed text-slate-600">{definition}</p>
           </Panel>
         </motion.div>
 
@@ -31,11 +31,11 @@ export default function ConceptIntro({ definition, application, ctaLabel = "Come
             <div className="flex items-center gap-2">
               <span className="font-mono text-[11px] font-semibold text-accent-600">02</span>
               <Target size={16} className="text-accent-700" strokeWidth={2} />
-              <h3 className="font-display text-sm font-bold uppercase tracking-wide text-accent-800">
+              <h3 className="font-display text-base font-bold uppercase tracking-wide text-accent-800">
                 En Multimarket
               </h3>
             </div>
-            <p className="text-sm leading-relaxed text-slate-700">{application}</p>
+            <p className="text-base leading-relaxed text-slate-700">{application}</p>
           </Panel>
         </motion.div>
       </div>
