@@ -3,7 +3,11 @@ import { OLTP_SEED } from "../data/mockData";
 
 const OLAP_FILTERS_DEFAULT = { region: "Norte", producto: "Todos", trimestre: "T4 2025" };
 
-const TOTAL_SECONDS = 20 * 60;
+// El cronograma presupuesta 18 min en total (2 de arranque + 16 de aquí en
+// adelante), dejando ~2 min de colchón real bajo el tope de 20 min del
+// enunciado. El timer solo cuenta esta segunda parte — arranca cuando el
+// presentador pulsa "Comenzar Demostración", ya con el arranque narrado.
+const TOTAL_SECONDS = 16 * 60;
 export const TOTAL_STEPS = 10;
 
 let nextTxId = OLTP_SEED.length + 1;

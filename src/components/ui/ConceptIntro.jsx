@@ -1,11 +1,20 @@
 import { motion } from "framer-motion";
-import { BookOpen, Target, PlayCircle } from "lucide-react";
+import { BookOpen, Target, CircleCheck, TriangleAlert, PlayCircle } from "lucide-react";
 import Panel from "./Panel";
 import Button from "./Button";
 
 // Teaching scaffold shown before every pillar's interactive demo:
-// 01 Definición → 02 Aplicación en Multimarket → 03 CTA into the practice.
-export default function ConceptIntro({ definition, application, ctaLabel = "Comenzar práctica", onStart }) {
+// 01 Definición → 02 Aplicación en Multimarket → 03 Ventajas/Desventajas → 04 CTA into the practice.
+export default function ConceptIntro({
+  definition,
+  application,
+  ventajas,
+  desventajas,
+  ctaLabel = "Comenzar práctica",
+  onStart,
+}) {
+  const hasProsCons = ventajas?.length > 0 || desventajas?.length > 0;
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -40,13 +49,59 @@ export default function ConceptIntro({ definition, application, ctaLabel = "Come
         </motion.div>
       </div>
 
+      {hasProsCons && (
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22 }}>
+            <Panel accent="signal-clean" className="flex h-full flex-col gap-3 p-6">
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[11px] font-semibold text-emerald-700">03</span>
+                <CircleCheck size={16} className="text-emerald-600" strokeWidth={2} />
+                <h3 className="font-display text-base font-bold uppercase tracking-wide text-emerald-800">
+                  Ventajas
+                </h3>
+              </div>
+              <ul className="flex flex-col gap-2.5">
+                {ventajas.map((v) => (
+                  <li key={v} className="flex items-start gap-2.5">
+                    <CircleCheck size={15} className="mt-0.5 shrink-0 text-emerald-600" strokeWidth={2} />
+                    <span className="text-sm leading-relaxed text-slate-700">{v}</span>
+                  </li>
+                ))}
+              </ul>
+            </Panel>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+            <Panel accent="signal-warn" className="flex h-full flex-col gap-3 p-6">
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[11px] font-semibold text-orange-700">03</span>
+                <TriangleAlert size={16} className="text-orange-600" strokeWidth={2} />
+                <h3 className="font-display text-base font-bold uppercase tracking-wide text-orange-800">
+                  Desventajas
+                </h3>
+              </div>
+              <ul className="flex flex-col gap-2.5">
+                {desventajas.map((d) => (
+                  <li key={d} className="flex items-start gap-2.5">
+                    <TriangleAlert size={15} className="mt-0.5 shrink-0 text-orange-600" strokeWidth={2} />
+                    <span className="text-sm leading-relaxed text-slate-700">{d}</span>
+                  </li>
+                ))}
+              </ul>
+            </Panel>
+          </motion.div>
+        </div>
+      )}
+
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
+        transition={{ delay: hasProsCons ? 0.45 : 0.3 }}
         className="flex flex-col items-center gap-2 pt-2"
       >
-        <span className="font-mono text-[11px] font-semibold text-slate-400">03 · PRÁCTICA</span>
+        <span className="font-mono text-[11px] font-semibold text-slate-400">
+          {hasProsCons ? "04" : "03"} · PRÁCTICA
+        </span>
         <Button variant="primary" icon={PlayCircle} onClick={onStart}>
           {ctaLabel}
         </Button>

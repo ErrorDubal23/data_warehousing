@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "framer-motion";
-import { Database, PlusCircle, BookOpen, RotateCcw } from "lucide-react";
+import { Database, PlusCircle, BookOpen, RotateCcw, ShieldCheck } from "lucide-react";
 import { useAppStore } from "../../store/useAppStore";
 import { PRODUCTOS, SUCURSALES } from "../../data/mockData";
 import Button from "../ui/Button";
@@ -19,6 +19,25 @@ const COLUMNS = [
   { key: "producto", label: "Producto" },
   { key: "sucursal", label: "Sucursal" },
   { key: "cantidad", label: "Cant." },
+];
+
+const ACID = [
+  { letra: "A", nombre: "Atomicidad", detalle: "La venta se guarda completa o no se guarda — nunca a medias." },
+  {
+    letra: "C",
+    nombre: "Consistencia",
+    detalle: "El sistema nunca queda en un estado inválido después de la transacción.",
+  },
+  {
+    letra: "I",
+    nombre: "Aislamiento",
+    detalle: "Miles de cajas pueden vender al mismo tiempo sin pisarse los datos entre sí.",
+  },
+  {
+    letra: "D",
+    nombre: "Durabilidad",
+    detalle: "Una vez confirmada, la venta sobrevive incluso si el sistema falla justo después.",
+  },
 ];
 
 function formatTimestamp(iso) {
@@ -61,6 +80,16 @@ export default function Block2OLTP() {
             key="concept"
             definition="Un sistema OLTP (Online Transaction Processing) está optimizado para procesar un alto volumen de transacciones cortas y frecuentes — inserciones, actualizaciones y eliminaciones puntuales. Prioriza la velocidad y la integridad de cada operación individual sobre el análisis histórico."
             application="Cada vez que una caja de Multimarket registra una venta, el sistema OLTP guarda esa transacción de forma aislada, sin calcular totales ni comparar sucursales. Es la capa operativa: rápida y precisa, pero ciega al panorama general del negocio."
+            ventajas={[
+              "Respuesta casi instantánea: cada transacción se confirma en milisegundos.",
+              "Garantiza integridad mediante propiedades ACID — nunca queda una venta a medias.",
+              "Soporta miles de usuarios concurrentes sin pisarse los datos entre sí.",
+            ]}
+            desventajas={[
+              "No está pensado para preguntas agregadas — sumar un trimestre completo lo satura.",
+              "La normalización que lo hace rápido para escribir lo hace lento para leer en bloque.",
+              "Múltiples sistemas OLTP aislados (uno por sucursal) generan silos, como en este caso.",
+            ]}
             ctaLabel="Comenzar práctica: registrar una venta"
             onStart={() => setPhase("practice")}
           />
@@ -203,6 +232,37 @@ export default function Block2OLTP() {
                 </DataTable>
               </div>
             </div>
+
+            <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
+              <Panel accent="accent-600" className="p-6">
+                <div className="mb-5 flex items-center gap-2">
+                  <ShieldCheck className="text-accent-700" size={18} strokeWidth={2} />
+                  <h3 className="font-display text-base font-bold text-slate-900">Por dentro: transacciones ACID</h3>
+                </div>
+                <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
+                  {ACID.map((p, i) => (
+                    <motion.div
+                      key={p.letra}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.25 + i * 0.08 }}
+                      className="flex flex-col gap-2"
+                    >
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-accent-600 font-display text-base font-bold text-accent-700">
+                        {p.letra}
+                      </div>
+                      <p className="font-display text-sm font-bold text-slate-900">{p.nombre}</p>
+                      <p className="text-sm leading-relaxed text-slate-500">{p.detalle}</p>
+                    </motion.div>
+                  ))}
+                </div>
+                <p className="mt-5 border-t border-slate-100 pt-4 text-sm leading-relaxed text-slate-500">
+                  Además, cada venta es una operación simple: un <span className="font-mono text-xs">INSERT</span>{" "}
+                  sobre una tabla indexada por ID, sin JOINs ni cálculos de por medio. Esa simplicidad es la que
+                  permite miles de transacciones por segundo.
+                </p>
+              </Panel>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

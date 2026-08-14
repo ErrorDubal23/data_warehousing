@@ -2,6 +2,9 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Database, Workflow, Boxes, BarChart3, Check, Timer } from "lucide-react";
 import { useAppStore } from "../../store/useAppStore";
+import GithubIcon from "../ui/GithubIcon";
+
+const REPO_URL = "https://github.com/ErrorDubal23/data_warehousing";
 
 const STAGES = [
   { step: 5, key: "oltp", label: "OLTP", icon: Database },
@@ -43,7 +46,16 @@ export default function Block0PipelineBar() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
       <div className="mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-6 px-6">
-        <div aria-hidden="true" />
+        <a
+          href={REPO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex w-fit items-center gap-2 text-slate-400 transition-colors duration-200 hover:text-accent-700"
+          aria-label="Ver repositorio en GitHub"
+        >
+          <GithubIcon size={18} className="transition-transform duration-300 group-hover:scale-110" />
+          <span className="hidden font-mono text-[11px] uppercase tracking-wider sm:inline">GitHub</span>
+        </a>
 
         <nav className="hidden items-center justify-center md:flex">
           <ol className="flex items-center">

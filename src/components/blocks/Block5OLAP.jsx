@@ -166,6 +166,16 @@ export default function Block5OLAP() {
             key="concept"
             definition="OLAP (Online Analytical Processing) permite explorar datos multidimensionales de forma interactiva: filtrar, agregar y hacer drill-down sin escribir una sola consulta SQL. Está optimizado para preguntas de negocio, no para transacciones."
             application="Con el Data Warehouse ya poblado, un analista de Multimarket puede responder en segundos la pregunta que abrió esta demostración: cuánto se vendió, en qué región, en qué trimestre — y bajar hasta el detalle mensual con un clic."
+            ventajas={[
+              "Permite explorar cualquier combinación de dimensiones sin escribir SQL.",
+              "Las consultas agregadas son rápidas incluso sobre millones de registros.",
+              "El drill-down / roll-up da contexto inmediato, de lo general a lo específico.",
+            ]}
+            desventajas={[
+              "No sirve para transacciones — no se usa para registrar una venta.",
+              "Los cubos y agregaciones precalculadas pueden ocupar mucho espacio en disco.",
+              "Si el ETL falla o se atrasa, el análisis queda desactualizado.",
+            ]}
             ctaLabel="Comenzar práctica: responder la pregunta"
             onStart={() => setPhase("practice")}
           />

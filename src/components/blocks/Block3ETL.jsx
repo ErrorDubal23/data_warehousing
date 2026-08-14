@@ -142,6 +142,16 @@ export default function Block3ETL() {
             key="concept"
             definition="ETL (Extract, Transform, Load) es el proceso que extrae datos de múltiples fuentes operacionales, los transforma para que sean consistentes y confiables, y los carga en un repositorio analítico. Es el puente entre la operación diaria y el análisis estratégico."
             application="Las sucursales de Multimarket registran fechas, monedas y nombres de forma distinta. Antes de poder compararlas, el proceso ETL estandariza cada campo, elimina duplicados y deja los datos listos para vivir en el Data Warehouse."
+            ventajas={[
+              "Estandariza datos de fuentes heterogéneas en un solo formato confiable.",
+              "Detecta y corrige errores (duplicados, inconsistencias) antes de que lleguen al análisis.",
+              "Desacopla la limpieza del análisis — el warehouse siempre queda listo para consultar.",
+            ]}
+            desventajas={[
+              "Es costoso en cómputo: con volúmenes grandes puede tardar horas en correr.",
+              "Cada cambio en la fuente origen (ej. un nuevo formato de fecha) obliga a ajustar las reglas.",
+              "Introduce latencia — los datos no quedan disponibles al instante, como en OLTP.",
+            ]}
             ctaLabel="Comenzar práctica: estandarizar el lote"
             onStart={() => setPhase("practice")}
           />

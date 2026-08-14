@@ -3,6 +3,7 @@ import { Server, ArrowRight, TriangleAlert, FileSpreadsheet, Hourglass, Compass 
 import { useAppStore } from "../../store/useAppStore";
 import Button from "../ui/Button";
 import Panel from "../ui/Panel";
+import TiltCard from "../ui/TiltCard";
 import SectionHeader from "../ui/SectionHeader";
 
 const SUCURSALES_SILO = [
@@ -12,18 +13,9 @@ const SUCURSALES_SILO = [
 ];
 
 const CONSECUENCIAS = [
-  {
-    icon: FileSpreadsheet,
-    texto: "Los reportes gerenciales se arman a mano, cruzando exports de Excel de cada sucursal.",
-  },
-  {
-    icon: Hourglass,
-    texto: "Una consulta histórica simple puede tomar días en vez de minutos.",
-  },
-  {
-    icon: Compass,
-    texto: "Las decisiones de inventario y expansión se basan en intuición, no en datos consolidados.",
-  },
+  { icon: FileSpreadsheet, texto: "Reportes armados a mano, cruzando Excel de cada sucursal." },
+  { icon: Hourglass, texto: "Una consulta histórica simple toma días, no minutos." },
+  { icon: Compass, texto: "Decisiones de inventario y expansión, a puro instinto." },
 ];
 
 export default function Block1Intro() {
@@ -38,9 +30,9 @@ export default function Block1Intro() {
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-10">
       <SectionHeader
-        kicker="Caso de estudio · Cadena de retail"
+        kicker="El problema, en detalle"
         title="Multimarket"
-        subtitle="Datos aislados en silos operacionales. Imposibilidad de responder preguntas estratégicas."
+        subtitle="Así se ve, hoy, la fragmentación que acabamos de repasar."
       />
 
       <motion.p
@@ -49,12 +41,11 @@ export default function Block1Intro() {
         transition={{ delay: 0.1 }}
         className="max-w-3xl text-base leading-relaxed text-slate-600"
       >
-        Multimarket es una cadena de retail con presencia en cuatro regiones del país. Cada sucursal opera de forma
-        autónoma: su propio punto de venta, su propio formato de fecha, su propia forma de registrar precios — sin
-        ningún tipo de integración entre sí.
+        Cuatro regiones, cada sucursal como si fuera la única tienda del mundo: su propio punto de venta, su propio
+        formato de fecha, sin ninguna integración entre sí.
       </motion.p>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
         {SUCURSALES_SILO.map((suc, i) => (
           <motion.div
             key={suc.nombre}
@@ -62,27 +53,27 @@ export default function Block1Intro() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 + i * 0.1 }}
           >
-            <Panel accent="signal-dirty" texture="dots" className="flex h-full flex-col gap-3 p-5">
-              <div className="flex items-center justify-between">
-                <motion.div
-                  animate={{ y: [0, -3, 0] }}
-                  transition={{ duration: 3 + i * 0.4, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  <Server className="text-slate-400" size={22} strokeWidth={1.5} />
-                </motion.div>
+            <TiltCard
+              accent="signal-dirty"
+              className="h-full"
+              badge={
                 <motion.div
                   animate={{ scale: [1, 1.18, 1] }}
                   transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
                 >
                   <TriangleAlert className="text-signal-dirty" size={16} strokeWidth={2} />
                 </motion.div>
+              }
+            >
+              <div className="flex h-full flex-col gap-3 p-5">
+                <Server className="text-slate-400" size={22} strokeWidth={1.5} />
+                <p className="font-display text-sm font-bold text-slate-800">{suc.nombre}</p>
+                <div className="flex flex-col gap-1 font-mono text-xs text-slate-500">
+                  <span>{suc.detalle}</span>
+                  <span>{suc.moneda}</span>
+                </div>
               </div>
-              <p className="font-display text-sm font-bold text-slate-800">{suc.nombre}</p>
-              <div className="flex flex-col gap-1 font-mono text-xs text-slate-500">
-                <span>{suc.detalle}</span>
-                <span>{suc.moneda}</span>
-              </div>
-            </Panel>
+            </TiltCard>
           </motion.div>
         ))}
       </div>
@@ -117,10 +108,19 @@ export default function Block1Intro() {
         </Panel>
       </motion.div>
 
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.85 }}
+        className="text-center text-sm text-slate-500"
+      >
+        La pregunta que llevó a Multimarket a proponer el modelo OLAP en los 90. Vamos a revivirla, paso a paso.
+      </motion.p>
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 0.9 }}
+        transition={{ delay: 1 }}
         className="flex justify-center"
       >
         <Button variant="primary" icon={ArrowRight} onClick={handleStart}>

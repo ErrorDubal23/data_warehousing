@@ -43,16 +43,20 @@ const BG_BY_STEP = {
 };
 
 // Steps 1–4 (portada, cronograma, tema, caso) each carry their own centered
-// CTA that intentionally advances the story — the free-roaming nav appears
-// once the interactive pipeline itself begins.
-const NAV_VISIBLE_FROM_STEP = 5;
+// CTA that intentionally advances the story — one of them also starts the
+// timer — so the free-roaming "next" arrow only appears once the interactive
+// pipeline itself begins. "Back" has no such side effect, so it's available
+// everywhere except the very first slide (which has nothing before it).
+const NEXT_VISIBLE_FROM_STEP = 5;
 
 function BottomNav() {
   const step = useAppStore((s) => s.step);
   const next = useAppStore((s) => s.next);
   const prev = useAppStore((s) => s.prev);
 
-  if (step < NAV_VISIBLE_FROM_STEP) return null;
+  if (step === 1) return null;
+
+  const showNext = step >= NEXT_VISIBLE_FROM_STEP;
 
   return (
     <div className="fixed bottom-6 right-6 z-40 flex items-center gap-2 border border-slate-200 bg-white/95 px-2 py-1.5 shadow-sm backdrop-blur">
@@ -65,13 +69,15 @@ function BottomNav() {
       <span className="font-mono text-xs tabular-nums text-slate-400">
         {step} / {TOTAL_STEPS}
       </span>
-      <button
-        onClick={next}
-        disabled={step === TOTAL_STEPS}
-        className="flex h-8 w-8 items-center justify-center text-slate-500 transition-colors hover:text-accent-700 disabled:cursor-not-allowed disabled:opacity-30"
-      >
-        <ChevronRight size={18} />
-      </button>
+      {showNext && (
+        <button
+          onClick={next}
+          disabled={step === TOTAL_STEPS}
+          className="flex h-8 w-8 items-center justify-center text-slate-500 transition-colors hover:text-accent-700 disabled:cursor-not-allowed disabled:opacity-30"
+        >
+          <ChevronRight size={18} />
+        </button>
+      )}
     </div>
   );
 }

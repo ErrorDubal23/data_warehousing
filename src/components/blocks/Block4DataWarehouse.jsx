@@ -107,6 +107,16 @@ export default function Block4DataWarehouse() {
             key="concept"
             definition="Un Data Warehouse es un repositorio central diseñado para el análisis, no para la operación. Su modelo dimensional —el esquema estrella— organiza los datos en una tabla de hechos con las métricas del negocio, rodeada de dimensiones que aportan contexto: quién, qué, dónde y cuándo."
             application="En Multimarket, cada venta ya limpia se convierte en un hecho conectado a cuatro dimensiones: Producto, Tienda, Tiempo y Cliente. Esta estructura permite cruzar cualquier combinación de esos ejes sin rediseñar nada."
+            ventajas={[
+              "Una sola fuente de verdad consolidada — se acabaron los cruces manuales de Excel.",
+              "El modelo dimensional está optimizado para lectura y agregación masiva.",
+              "Conserva el historial completo, algo que un sistema OLTP normalmente no guarda.",
+            ]}
+            desventajas={[
+              "Requiere inversión inicial de diseño (modelado dimensional) y de infraestructura.",
+              "Los datos no son de tiempo real — dependen de con qué frecuencia corre el ETL.",
+              "Desnormalizar implica duplicar datos, lo que consume más espacio de almacenamiento.",
+            ]}
             ctaLabel="Comenzar práctica: explorar el esquema"
             onStart={() => setPhase("practice")}
           />

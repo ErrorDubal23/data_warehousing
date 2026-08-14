@@ -22,7 +22,7 @@ export default function BlockCronograma() {
     <div className="mx-auto flex max-w-3xl flex-col gap-10 px-6 py-10">
       <SectionHeader
         kicker="Cronograma de la exposición"
-        title="Agenda — 20 minutos"
+        title={`Agenda — ${total} minutos`}
         subtitle="Recorremos el pipeline completo del dato: de la captura operacional a la decisión estratégica."
       />
 
@@ -39,7 +39,7 @@ export default function BlockCronograma() {
               className="relative flex gap-4 pb-8"
             >
               {!isLast && (
-                <span className="absolute left-[15px] top-8 h-full w-px bg-slate-200" aria-hidden="true" />
+                <span className="absolute left-3.75 top-8 h-full w-px bg-slate-200" aria-hidden="true" />
               )}
               <div className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-accent-600 bg-white text-accent-700">
                 <Icon size={15} strokeWidth={2} />

@@ -10,8 +10,9 @@
 export const CURSO = {
   materia: "Base de Datos",
   universidad: "Universidad del Norte",
-  titulo: "Multimarket",
-  subtitulo: "Data Warehousing: de la operación diaria a la decisión estratégica",
+  tema: "Data Warehousing",
+  temaSubtitulo: "OLTP, ETL y OLAP: de la operación diaria a la decisión estratégica",
+  caso: "Multimarket",
 };
 
 export const EQUIPO = [
@@ -84,6 +85,36 @@ export const REFERENCIAS = [
   },
 ];
 
+// ---------------------------------------------------------------------------
+// Historia — cómo Multimarket llegó a necesitar un Data Warehouse
+// ---------------------------------------------------------------------------
+export const HISTORIA = [
+  {
+    anio: "Años 70",
+    icon: "notebook",
+    titulo: "El cuaderno y el lápiz",
+    detalle: "Multimarket nace como una tienda de barrio: cada venta se anota a mano, y así funciona.",
+  },
+  {
+    anio: "Años 80",
+    icon: "database",
+    titulo: "El salto a OLTP",
+    detalle: "El cuaderno ya no alcanza. Multimarket adopta OLTP y la velocidad dispara su crecimiento.",
+  },
+  {
+    anio: "20 años después",
+    icon: "alert",
+    titulo: "Demasiadas tiendas, demasiados sistemas",
+    detalle: "Decenas de sucursales, cada una con su propia base OLTP y sus propios formatos: nadie ve el negocio completo.",
+  },
+  {
+    anio: "Años 90",
+    icon: "lightbulb",
+    titulo: "La propuesta",
+    detalle: "Un Data Warehouse que consolide todo, alimentado por ETL y explorado con OLAP — lo que vamos a recorrer hoy.",
+  },
+];
+
 export const AGENDA = [
   {
     icon: "flag",
@@ -118,8 +149,8 @@ export const AGENDA = [
   {
     icon: "question",
     titulo: "Cierre y preguntas",
-    detalle: "Síntesis OLTP vs. OLAP",
-    minutos: 3,
+    detalle: "Síntesis del pipeline completo",
+    minutos: 1,
   },
 ];
 
@@ -307,27 +338,42 @@ function buildOlapData() {
 export const OLAP_DATA = buildOlapData();
 
 // ---------------------------------------------------------------------------
-// Closing block — OLTP vs OLAP conceptual comparison
+// Closing block — comparación de los 4 pilares del pipeline completo
 // ---------------------------------------------------------------------------
 export const COMPARISON_ROWS = [
   {
     label: "Propósito",
-    oltp: "Soportar la operación diaria — capturar cada transacción",
-    olap: "Soportar el análisis — responder preguntas estratégicas",
+    oltp: "Capturar la operación",
+    etl: "Limpiar y estandarizar",
+    dw: "Consolidar y almacenar",
+    olap: "Analizar y decidir",
   },
   {
-    label: "Operaciones típicas",
-    oltp: "INSERT, UPDATE, DELETE de registros individuales",
-    olap: "SELECT con agregaciones (SUM, AVG) y filtros multidimensionales",
+    label: "Operación típica",
+    oltp: "INSERT / UPDATE / DELETE",
+    etl: "Extract → Transform → Load",
+    dw: "Carga estructurada (batch)",
+    olap: "SELECT con SUM / AVG / GROUP BY",
   },
   {
     label: "Estructura de datos",
-    oltp: "Normalizada, muchas tablas pequeñas, integridad transaccional",
-    olap: "Desnormalizada, esquema estrella, optimizada para lectura",
+    oltp: "Normalizada, muchas tablas",
+    etl: "Datos en tránsito (staging)",
+    dw: "Desnormalizada, esquema estrella",
+    olap: "Cubos / vistas multidimensionales",
   },
   {
-    label: "Ejemplo de consulta",
-    oltp: "INSERT INTO ventas (producto, sucursal, cantidad) VALUES (...)",
-    olap: "SELECT SUM(monto_usd) WHERE region='Norte' AND trimestre='T4 2025'",
+    label: "¿Cuándo corre?",
+    oltp: "Todo el tiempo, en vivo",
+    etl: "Por lotes o programado",
+    dw: "Se actualiza tras cada ETL",
+    olap: "Bajo demanda del analista",
+  },
+  {
+    label: "Quién lo usa",
+    oltp: "El sistema de venta",
+    etl: "Ingeniero de datos",
+    dw: "Administrador de datos",
+    olap: "Analista de negocio",
   },
 ];

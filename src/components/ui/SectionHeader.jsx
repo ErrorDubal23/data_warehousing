@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import PulseDot from "./PulseDot";
 
 export default function SectionHeader({ kicker, title, subtitle, align = "left" }) {
   const alignClass = align === "center" ? "items-center text-center" : "items-start text-left";
@@ -9,9 +8,8 @@ export default function SectionHeader({ kicker, title, subtitle, align = "left" 
         <motion.span
           initial={{ opacity: 0, y: -6 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-2 font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent-600"
+          className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent-600"
         >
-          <PulseDot color="var(--color-accent-600)" />
           {kicker}
         </motion.span>
       )}
