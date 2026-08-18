@@ -3,12 +3,10 @@ import { OLTP_SEED } from "../data/mockData";
 
 const OLAP_FILTERS_DEFAULT = { region: "Norte", producto: "Todos", trimestre: "T4 2025" };
 
-// El cronograma presupuesta 19 min en total (2 de arranque + 17 de aquí en
-// adelante), dejando ~1 min de colchón real bajo el tope de 20 min del
-// enunciado. El timer solo cuenta esta segunda parte — arranca cuando el
-// presentador pulsa "Comenzar la demostración" al final de la Historia, ya
-// con el arranque narrado.
-const TOTAL_SECONDS = 17 * 60;
+// Cuenta regresiva de 20 min — el tope completo del enunciado, independiente
+// de cómo esté organizada la agenda interna. Arranca en el primer "Comenzar"
+// de la Portada y corre de ahí en adelante sin pausas.
+const TOTAL_SECONDS = 20 * 60;
 export const TOTAL_STEPS = 10;
 
 let nextTxId = OLTP_SEED.length + 1;
@@ -21,14 +19,14 @@ export const useAppStore = create((set, get) => ({
   // -------------------------------------------------------------------
   step: 1,
   goToStep: (step) => set({ step }),
-  // Leaving Historia (step 3) always starts the timer, regardless of whether
+  // Leaving Portada (step 1) always starts the timer, regardless of whether
   // the audience advances via its dedicated CTA or the corner nav arrow —
   // keeping both paths consistent instead of only wiring the side effect
   // into one specific button.
   next: () =>
     set((s) => ({
       step: Math.min(TOTAL_STEPS, s.step + 1),
-      timerRunning: s.step === 3 ? true : s.timerRunning,
+      timerRunning: s.step === 1 ? true : s.timerRunning,
     })),
   prev: () => set((s) => ({ step: Math.max(1, s.step - 1) })),
 
