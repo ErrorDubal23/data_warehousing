@@ -6,7 +6,6 @@ import { FACT_TABLE, DIMENSIONS } from "../../data/mockData";
 import SectionHeader from "../ui/SectionHeader";
 import Badge from "../ui/Badge";
 import ConceptIntro from "../ui/ConceptIntro";
-import PulseDot from "../ui/PulseDot";
 import AnimatedNumber from "../ui/AnimatedNumber";
 
 const ICONS = { package: Package, store: Store, calendar: Calendar, users: Users };
@@ -139,7 +138,6 @@ export default function Block4DataWarehouse() {
               </button>
               {warehouse.length > 0 && (
                 <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-slate-500">
-                  <PulseDot color="var(--color-signal-clean)" />
                   <AnimatedNumber value={warehouse.length} /> registros en el warehouse ahora mismo
                 </span>
               )}

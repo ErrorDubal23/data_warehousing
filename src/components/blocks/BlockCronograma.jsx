@@ -1,5 +1,15 @@
 import { motion } from "framer-motion";
-import { Flag, Database, Workflow, Boxes, BarChart3, MessageCircleQuestion, ArrowRight, Clock } from "lucide-react";
+import {
+  Flag,
+  Database,
+  Workflow,
+  Boxes,
+  BarChart3,
+  MessageCircleQuestion,
+  TriangleAlert,
+  ArrowRight,
+  Clock,
+} from "lucide-react";
 import { useAppStore } from "../../store/useAppStore";
 import { AGENDA } from "../../data/mockData";
 import Button from "../ui/Button";
@@ -12,6 +22,7 @@ const ICONS = {
   boxes: Boxes,
   chart: BarChart3,
   question: MessageCircleQuestion,
+  alert: TriangleAlert,
 };
 
 export default function BlockCronograma() {

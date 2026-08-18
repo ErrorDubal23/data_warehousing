@@ -21,6 +21,7 @@ export const EQUIPO = [
   "Angelo de Leon Caneda",
   "Mateo José Cisneros Galeano",
   "Miguel Alejandro Cortés Núñez",
+  "Luis Angel Cuellar Ballesteros",
 ];
 
 // ---------------------------------------------------------------------------
@@ -119,7 +120,7 @@ export const AGENDA = [
   {
     icon: "flag",
     titulo: "Introducción",
-    detalle: "El origen del problema de negocio",
+    detalle: "La historia de Multimarket",
     minutos: 2,
   },
   {
@@ -133,6 +134,12 @@ export const AGENDA = [
     titulo: "ETL",
     detalle: "Extract, Transform, Load — la limpieza",
     minutos: 4,
+  },
+  {
+    icon: "alert",
+    titulo: "El problema",
+    detalle: "Por qué no basta con OLTP + ETL",
+    minutos: 1,
   },
   {
     icon: "boxes",

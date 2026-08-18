@@ -19,20 +19,14 @@ const CONSECUENCIAS = [
 ];
 
 export default function Block1Intro() {
-  const startTimer = useAppStore((s) => s.startTimer);
   const next = useAppStore((s) => s.next);
-
-  const handleStart = () => {
-    startTimer();
-    next();
-  };
 
   return (
     <div className="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-10">
       <SectionHeader
-        kicker="El problema, en detalle"
+        kicker="El problema que persiste"
         title="Multimarket"
-        subtitle="Así se ve, hoy, la fragmentación que acabamos de repasar."
+        subtitle="OLTP ya captura. ETL ya limpia. Pero esto sigue sin resolverse."
       />
 
       <motion.p
@@ -41,8 +35,9 @@ export default function Block1Intro() {
         transition={{ delay: 0.1 }}
         className="max-w-3xl text-base leading-relaxed text-slate-600"
       >
-        Cuatro regiones, cada sucursal como si fuera la única tienda del mundo: su propio punto de venta, su propio
-        formato de fecha, sin ninguna integración entre sí.
+        Ya viste el desorden de un solo lote en ETL. Multiplícalo por cada sucursal: Multimarket tiene presencia en
+        cuatro regiones, y cada una sigue operando como si fuera la única tienda del mundo — su propio punto de
+        venta, su propio formato de fecha, sin ninguna integración entre sí.
       </motion.p>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
@@ -114,7 +109,8 @@ export default function Block1Intro() {
         transition={{ delay: 0.85 }}
         className="text-center text-sm text-slate-500"
       >
-        La pregunta que llevó a Multimarket a proponer el modelo OLAP en los 90. Vamos a revivirla, paso a paso.
+        La pregunta que llevó a Multimarket a proponer el modelo OLAP en los 90. Ya capturamos el dato y lo
+        limpiamos — ahora falta consolidarlo y responderla.
       </motion.p>
 
       <motion.div
@@ -123,8 +119,8 @@ export default function Block1Intro() {
         transition={{ delay: 1 }}
         className="flex justify-center"
       >
-        <Button variant="primary" icon={ArrowRight} onClick={handleStart}>
-          Comenzar Demostración
+        <Button variant="primary" icon={ArrowRight} onClick={next}>
+          Continuar con Data Warehouse
         </Button>
       </motion.div>
     </div>

@@ -10,7 +10,6 @@ import DataTable from "../ui/DataTable";
 import SectionHeader from "../ui/SectionHeader";
 import Badge from "../ui/Badge";
 import ConceptIntro from "../ui/ConceptIntro";
-import PulseDot from "../ui/PulseDot";
 import AnimatedNumber from "../ui/AnimatedNumber";
 
 const COLUMNS = [
@@ -191,12 +190,7 @@ export default function Block2OLTP() {
                 <div className="mb-3 flex items-center justify-between">
                   <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-slate-500">
                     Tabla_Ventas
-                    <Badge tone="accent">
-                      <span className="flex items-center gap-1.5">
-                        <PulseDot color="var(--color-signal-clean)" />
-                        en vivo
-                      </span>
-                    </Badge>
+                    <Badge tone="accent">en vivo</Badge>
                   </span>
                   <span className="font-mono text-[11px] text-slate-400">
                     <AnimatedNumber value={transactions.length} /> registros

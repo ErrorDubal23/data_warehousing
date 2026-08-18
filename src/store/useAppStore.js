@@ -3,11 +3,12 @@ import { OLTP_SEED } from "../data/mockData";
 
 const OLAP_FILTERS_DEFAULT = { region: "Norte", producto: "Todos", trimestre: "T4 2025" };
 
-// El cronograma presupuesta 18 min en total (2 de arranque + 16 de aquí en
-// adelante), dejando ~2 min de colchón real bajo el tope de 20 min del
+// El cronograma presupuesta 19 min en total (2 de arranque + 17 de aquí en
+// adelante), dejando ~1 min de colchón real bajo el tope de 20 min del
 // enunciado. El timer solo cuenta esta segunda parte — arranca cuando el
-// presentador pulsa "Comenzar Demostración", ya con el arranque narrado.
-const TOTAL_SECONDS = 16 * 60;
+// presentador pulsa "Comenzar la demostración" al final de la Historia, ya
+// con el arranque narrado.
+const TOTAL_SECONDS = 17 * 60;
 export const TOTAL_STEPS = 10;
 
 let nextTxId = OLTP_SEED.length + 1;
@@ -15,8 +16,8 @@ let nextTxId = OLTP_SEED.length + 1;
 export const useAppStore = create((set, get) => ({
   // -------------------------------------------------------------------
   // Pipeline navigation
-  // step 1: Portada, 2: Cronograma, 3: Tema, 4: Caso (Intro), 5: OLTP,
-  // 6: ETL, 7: DW, 8: OLAP, 9: Cierre, 10: Referencias
+  // step 1: Portada, 2: Cronograma, 3: Tema, 4: OLTP, 5: ETL,
+  // 6: Caso (Multimarket — puente hacia DW), 7: DW, 8: OLAP, 9: Cierre, 10: Referencias
   // -------------------------------------------------------------------
   step: 1,
   goToStep: (step) => set({ step }),

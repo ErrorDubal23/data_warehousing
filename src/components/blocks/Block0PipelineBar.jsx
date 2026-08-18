@@ -7,8 +7,8 @@ import GithubIcon from "../ui/GithubIcon";
 const REPO_URL = "https://github.com/ErrorDubal23/data_warehousing";
 
 const STAGES = [
-  { step: 5, key: "oltp", label: "OLTP", icon: Database },
-  { step: 6, key: "etl", label: "ETL", icon: Workflow },
+  { step: 4, key: "oltp", label: "OLTP", icon: Database },
+  { step: 5, key: "etl", label: "ETL", icon: Workflow },
   { step: 7, key: "dw", label: "Data Warehouse", icon: Boxes },
   { step: 8, key: "olap", label: "OLAP", icon: BarChart3 },
 ];
@@ -76,13 +76,6 @@ export default function Block0PipelineBar() {
                   )}
                   <div className="flex items-center gap-2">
                     <div className="relative flex h-7 w-7 items-center justify-center">
-                      {status === "active" && (
-                        <motion.span
-                          className="absolute inset-0 rounded-full bg-accent-400/40"
-                          animate={{ scale: [1, 1.7, 1.7], opacity: [0.5, 0, 0] }}
-                          transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
-                        />
-                      )}
                       <div
                         className={`relative flex h-7 w-7 items-center justify-center rounded-full border transition-colors duration-300 ${
                           status === "done"

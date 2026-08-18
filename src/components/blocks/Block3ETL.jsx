@@ -405,7 +405,7 @@ export default function Block3ETL() {
                     </Button>
                   ) : (
                     <Button variant="primary" icon={ArrowRight} onClick={next}>
-                      Continuar al Data Warehouse
+                      Continuar
                     </Button>
                   )}
                 </motion.div>

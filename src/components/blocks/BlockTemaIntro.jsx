@@ -8,14 +8,20 @@ import SectionHeader from "../ui/SectionHeader";
 const ICONS = { notebook: NotebookPen, database: Database, alert: TriangleAlert, lightbulb: Lightbulb };
 
 export default function BlockTemaIntro() {
+  const startTimer = useAppStore((s) => s.startTimer);
   const next = useAppStore((s) => s.next);
+
+  const handleStart = () => {
+    startTimer();
+    next();
+  };
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-10 px-6 py-10">
       <SectionHeader
         kicker="Cómo llegamos hasta aquí"
         title="Una historia de datos"
-        subtitle="Antes de entrar al caso, un poco de historia: así fue como Multimarket llegó a necesitar un Data Warehouse."
+        subtitle="Un poco de historia antes de empezar: así fue como Multimarket llegó a necesitar un Data Warehouse."
       />
 
       <ol className="relative flex flex-col">
@@ -58,8 +64,8 @@ export default function BlockTemaIntro() {
         transition={{ delay: HISTORIA.length * 0.15 + 0.1 }}
         className="flex justify-center pt-2"
       >
-        <Button variant="primary" icon={ArrowRight} onClick={next}>
-          Conocer el caso: Multimarket
+        <Button variant="primary" icon={ArrowRight} onClick={handleStart}>
+          Comenzar la demostración
         </Button>
       </motion.div>
     </div>

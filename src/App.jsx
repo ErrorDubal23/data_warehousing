@@ -14,13 +14,16 @@ import Block6Closing from "./components/blocks/Block6Closing";
 import BlockReferencias from "./components/blocks/BlockReferencias";
 import AmbientBackground from "./components/ui/AmbientBackground";
 
+// Multimarket (Block1Intro) sits at step 6 now, as the bridge between ETL and
+// Data Warehouse — the audience has already seen OLTP capture and ETL clean
+// a batch, so this is where "but the bigger problem is still unsolved" lands.
 const BLOCKS = {
   1: BlockPortada,
   2: BlockCronograma,
   3: BlockTemaIntro,
-  4: Block1Intro,
-  5: Block2OLTP,
-  6: Block3ETL,
+  4: Block2OLTP,
+  5: Block3ETL,
+  6: Block1Intro,
   7: Block4DataWarehouse,
   8: Block5OLAP,
   9: Block6Closing,
@@ -42,12 +45,12 @@ const BG_BY_STEP = {
   10: "bg-white/60",
 };
 
-// Steps 1–4 (portada, cronograma, tema, caso) each carry their own centered
-// CTA that intentionally advances the story — one of them also starts the
+// Steps 1–3 (portada, cronograma, tema) each carry their own centered CTA
+// that intentionally advances the story — the last one also starts the
 // timer — so the free-roaming "next" arrow only appears once the interactive
 // pipeline itself begins. "Back" has no such side effect, so it's available
 // everywhere except the very first slide (which has nothing before it).
-const NEXT_VISIBLE_FROM_STEP = 5;
+const NEXT_VISIBLE_FROM_STEP = 4;
 
 function BottomNav() {
   const step = useAppStore((s) => s.step);
