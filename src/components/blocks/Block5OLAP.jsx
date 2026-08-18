@@ -43,11 +43,11 @@ const usd = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency:
 function Select({ label, value, onChange, options }) {
   return (
     <div className="flex flex-col gap-1.5 lg:gap-0.5">
-      <label className="font-mono text-[11px] uppercase tracking-wider text-slate-500 lg:text-[10px]">{label}</label>
+      <label className="font-mono text-[11px] uppercase tracking-wider text-slate-500 lg:text-[11px]">{label}</label>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-accent-600 lg:py-1 lg:text-xs"
+        className="border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-accent-600 lg:py-1 lg:text-sm"
       >
         {options.map((o) => (
           <option key={o} value={o}>
@@ -203,14 +203,14 @@ export default function Block5OLAP() {
                 texture="grid-animated"
                 className="flex flex-col gap-2 p-6 lg:gap-0 lg:p-2.5"
               >
-                <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent-600 lg:text-[10px]">
+                <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent-600 lg:text-[11px]">
                   Respondiendo la pregunta original
                 </p>
                 <div className="flex flex-wrap items-baseline gap-3 lg:gap-2">
                   <span className="font-display text-4xl font-bold text-slate-900 lg:text-xl">
                     <AnimatedNumber value={heroTotal} formatter={usd} />
                   </span>
-                  <span className="text-sm text-slate-600 lg:text-[11px]">
+                  <span className="text-sm text-slate-600 lg:text-xs">
                     vendidos en <strong className="text-slate-800">Región {filters.region}</strong> durante{" "}
                     <strong className="text-slate-800">{filters.trimestre}</strong>
                     {filters.producto !== "Todos" && (
@@ -229,7 +229,7 @@ export default function Block5OLAP() {
                 <Panel accent="accent-600" className="flex flex-col gap-5 p-5 lg:gap-2 lg:p-2.5">
                   <div className="flex items-center gap-2">
                     <SlidersHorizontal size={16} className="text-accent-700" strokeWidth={2} />
-                    <h3 className="font-display text-sm font-bold text-slate-900 lg:text-xs">Filtros</h3>
+                    <h3 className="font-display text-sm font-bold text-slate-900 lg:text-sm">Filtros</h3>
                   </div>
                   <Select
                     label="Región"
@@ -264,7 +264,7 @@ export default function Block5OLAP() {
                 <Panel accent="accent-600" className="p-5 lg:p-2.5">
                   <div className="mb-4 flex items-center gap-2 lg:mb-1">
                     <TrendingUp size={16} className="text-accent-700" strokeWidth={2} />
-                    <h3 className="font-display text-sm font-bold text-slate-900 lg:text-xs">
+                    <h3 className="font-display text-sm font-bold text-slate-900 lg:text-sm">
                       Ventas por {drillDown ? "mes" : "trimestre"}
                     </h3>
                   </div>
@@ -301,7 +301,7 @@ export default function Block5OLAP() {
               <Panel accent="accent-600" className="p-5 lg:p-2.5">
                 <div className="mb-4 flex items-center gap-2 lg:mb-1">
                   <Activity size={16} className="text-accent-700" strokeWidth={2} />
-                  <h3 className="font-display text-sm font-bold text-slate-900 lg:text-xs">Tendencia mensual</h3>
+                  <h3 className="font-display text-sm font-bold text-slate-900 lg:text-sm">Tendencia mensual</h3>
                 </div>
                 <div className="h-65 lg:h-28">
                 <ResponsiveContainer width="100%" height="100%">
@@ -339,7 +339,7 @@ export default function Block5OLAP() {
               <Panel accent="accent-600" className="p-5 lg:p-2.5">
                 <div className="mb-4 flex items-center gap-2 lg:mb-1">
                   <ChartPie size={16} className="text-accent-700" strokeWidth={2} />
-                  <h3 className="font-display text-sm font-bold text-slate-900 lg:text-xs">
+                  <h3 className="font-display text-sm font-bold text-slate-900 lg:text-sm">
                     Participación por categoría
                   </h3>
                 </div>
@@ -368,7 +368,7 @@ export default function Block5OLAP() {
                   </div>
                   <ul className="flex flex-col gap-1.5 sm:w-40 lg:gap-0.5">
                     {categoryShare.map((entry) => (
-                      <li key={entry.name} className="flex items-center gap-2 text-xs text-slate-600 lg:gap-1 lg:text-[10px]">
+                      <li key={entry.name} className="flex items-center gap-2 text-xs text-slate-600 lg:gap-1 lg:text-[11px]">
                         <span
                           className="h-2.5 w-2.5 shrink-0 rounded-full lg:h-1.5 lg:w-1.5"
                           style={{ backgroundColor: CATEGORY_COLORS[entry.name] ?? "var(--color-slate-300)" }}

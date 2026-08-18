@@ -33,7 +33,7 @@ export default function Block1Intro() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="max-w-3xl text-base leading-relaxed text-slate-600 lg:text-xs lg:leading-snug"
+        className="max-w-3xl text-base leading-relaxed text-slate-600 lg:text-sm lg:leading-snug"
       >
         Multiplica esa caja registradora por cada sucursal: Multimarket tiene presencia en cuatro regiones, y cada
         una opera con su propio sistema OLTP, como si fuera la única tienda del mundo — su propio punto de venta, su
@@ -62,8 +62,8 @@ export default function Block1Intro() {
             >
               <div className="flex h-full flex-col gap-3 p-5 lg:gap-1.5 lg:p-3">
                 <Server className="text-slate-400 lg:hidden" size={22} strokeWidth={1.5} />
-                <p className="font-display text-sm font-bold text-slate-800 lg:text-xs">{suc.nombre}</p>
-                <div className="flex flex-col gap-1 font-mono text-xs text-slate-500 lg:text-[10px]">
+                <p className="font-display text-sm font-bold text-slate-800 lg:text-sm">{suc.nombre}</p>
+                <div className="flex flex-col gap-1 font-mono text-xs text-slate-500 lg:text-[11px]">
                   <span>{suc.detalle}</span>
                   <span>{suc.moneda}</span>
                 </div>
@@ -84,7 +84,7 @@ export default function Block1Intro() {
               return (
                 <li key={c.texto} className="flex items-start gap-3 lg:gap-1.5">
                   <Icon size={16} className="mt-0.5 shrink-0 text-signal-warn" strokeWidth={2} />
-                  <span className="text-sm leading-relaxed text-slate-700 lg:text-[11px] lg:leading-snug">
+                  <span className="text-sm leading-relaxed text-slate-700 lg:text-xs lg:leading-snug">
                     {c.texto}
                   </span>
                 </li>
@@ -109,7 +109,7 @@ export default function Block1Intro() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.85 }}
-        className="text-center text-sm text-slate-500 lg:text-xs"
+        className="text-center text-sm text-slate-500 lg:text-sm"
       >
         La pregunta que llevó a Multimarket a proponer el modelo OLAP en los 90. Ya capturamos el dato — ahora falta
         limpiarlo, consolidarlo y responderla.

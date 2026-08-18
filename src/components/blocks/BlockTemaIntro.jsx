@@ -8,13 +8,7 @@ import SectionHeader from "../ui/SectionHeader";
 const ICONS = { notebook: NotebookPen, database: Database, alert: TriangleAlert, lightbulb: Lightbulb };
 
 export default function BlockTemaIntro() {
-  const startTimer = useAppStore((s) => s.startTimer);
   const next = useAppStore((s) => s.next);
-
-  const handleStart = () => {
-    startTimer();
-    next();
-  };
 
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-10 px-6 py-10 lg:w-full lg:gap-4 lg:py-4">
@@ -48,11 +42,11 @@ export default function BlockTemaIntro() {
                 <Icon size={11} strokeWidth={2} className="hidden lg:block" />
               </div>
               <div className="flex flex-1 flex-col gap-1 border-b border-slate-100 pb-7 lg:gap-0 lg:pb-2.5">
-                <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-accent-600 lg:text-[10px]">
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-accent-600 lg:text-[11px]">
                   {etapa.anio}
                 </span>
                 <p className="font-display text-lg font-bold text-slate-900 lg:text-sm">{etapa.titulo}</p>
-                <p className="text-base leading-relaxed text-slate-600 lg:text-xs lg:leading-snug">{etapa.detalle}</p>
+                <p className="text-base leading-relaxed text-slate-600 lg:text-sm lg:leading-snug">{etapa.detalle}</p>
               </div>
             </motion.li>
           );
@@ -65,7 +59,7 @@ export default function BlockTemaIntro() {
         transition={{ delay: HISTORIA.length * 0.15 + 0.1 }}
         className="flex justify-center pt-2 lg:pt-0"
       >
-        <Button variant="primary" icon={ArrowRight} onClick={handleStart}>
+        <Button variant="primary" icon={ArrowRight} onClick={next}>
           Comenzar la demostración
         </Button>
       </motion.div>

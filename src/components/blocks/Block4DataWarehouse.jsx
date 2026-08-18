@@ -10,11 +10,14 @@ import AnimatedNumber from "../ui/AnimatedNumber";
 
 const ICONS = { package: Package, store: Store, calendar: Calendar, users: Users };
 
+// CSS `translate` (unlike `transform: translate()`) takes space-separated
+// values, not comma-separated — a comma makes the whole declaration invalid
+// and silently no-ops, which is why these nodes never actually centered.
 const POSITIONS = {
-  top: { top: "0%", left: "50%", translate: "-50%, 0%" },
-  right: { top: "50%", left: "100%", translate: "-100%, -50%" },
-  bottom: { top: "100%", left: "50%", translate: "-50%, -100%" },
-  left: { top: "50%", left: "0%", translate: "0%, -50%" },
+  top: { top: "0%", left: "50%", translate: "-50% 0%" },
+  right: { top: "50%", left: "100%", translate: "-100% -50%" },
+  bottom: { top: "100%", left: "50%", translate: "-50% -100%" },
+  left: { top: "50%", left: "0%", translate: "0% -50%" },
 };
 
 const LINE_ENDS = {
@@ -144,7 +147,7 @@ export default function Block4DataWarehouse() {
             </div>
 
             <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-5 lg:gap-4">
-              <div className="relative mx-auto aspect-square w-full max-w-md lg:col-span-3 lg:max-w-80">
+              <div className="relative mx-auto aspect-square w-full max-w-md lg:col-span-3">
                 <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" style={{ zIndex: 0 }}>
                   {DIMENSIONS.map((dim) => {
                     const end = LINE_ENDS[dim.position];

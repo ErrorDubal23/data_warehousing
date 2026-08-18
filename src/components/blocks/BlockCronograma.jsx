@@ -30,7 +30,7 @@ export default function BlockCronograma() {
   const total = AGENDA.reduce((a, item) => a + item.minutos, 0);
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-10 px-6 py-10 lg:w-full lg:gap-4 lg:py-4">
+    <div className="mx-auto flex max-w-3xl flex-col gap-10 px-6 py-10 lg:w-full lg:gap-6 lg:py-6">
       <SectionHeader
         kicker="Cronograma de la exposición"
         title={`Agenda — ${total} minutos`}
@@ -58,10 +58,10 @@ export default function BlockCronograma() {
               </div>
               <div className="flex flex-1 flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-slate-100 pb-6 lg:gap-y-0 lg:pb-1.5">
                 <div>
-                  <p className="font-display text-base font-bold text-slate-900 lg:text-xs">{item.titulo}</p>
-                  <p className="text-sm text-slate-500 lg:text-[11px]">{item.detalle}</p>
+                  <p className="font-display text-base font-bold text-slate-900 lg:text-sm">{item.titulo}</p>
+                  <p className="text-sm text-slate-500 lg:text-xs">{item.detalle}</p>
                 </div>
-                <span className="flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-accent-600 lg:text-[10px]">
+                <span className="flex items-center gap-1.5 font-mono text-xs font-semibold uppercase tracking-wider text-accent-600 lg:text-[11px]">
                   <Clock size={12} strokeWidth={2} />
                   {item.minutos} min
                 </span>

@@ -46,42 +46,35 @@ const BG_BY_STEP = {
   10: "bg-white/60",
 };
 
-// Steps 1–3 (portada, cronograma, tema) each carry their own centered CTA
-// that intentionally advances the story — the last one also starts the
-// timer — so the free-roaming "next" arrow only appears once the interactive
-// pipeline itself begins. "Back" has no such side effect, so it's available
-// everywhere except the very first slide (which has nothing before it).
-const NEXT_VISIBLE_FROM_STEP = 4;
-
+// The corner nav is the one navigation element that's always on screen, so
+// it always shows the same two arrows in the same place on every slide —
+// only disabled at the two ends (step 1 / last step), never hidden or
+// reshaped. Every slide also keeps its own dedicated CTA for pacing the
+// narration; the corner nav is the consistent fallback underneath it.
 function BottomNav() {
   const step = useAppStore((s) => s.step);
   const next = useAppStore((s) => s.next);
   const prev = useAppStore((s) => s.prev);
 
-  if (step === 1) return null;
-
-  const showNext = step >= NEXT_VISIBLE_FROM_STEP;
-
   return (
     <div className="fixed bottom-6 right-6 z-40 flex items-center gap-2 border border-slate-200 bg-white/95 px-2 py-1.5 shadow-sm backdrop-blur">
       <button
         onClick={prev}
-        className="flex h-8 w-8 items-center justify-center text-slate-500 transition-colors hover:text-accent-700 disabled:opacity-30"
+        disabled={step === 1}
+        className="flex h-8 w-8 items-center justify-center text-slate-500 transition-colors hover:text-accent-700 disabled:cursor-not-allowed disabled:opacity-30"
       >
         <ChevronLeft size={18} />
       </button>
       <span className="font-mono text-xs tabular-nums text-slate-400">
         {step} / {TOTAL_STEPS}
       </span>
-      {showNext && (
-        <button
-          onClick={next}
-          disabled={step === TOTAL_STEPS}
-          className="flex h-8 w-8 items-center justify-center text-slate-500 transition-colors hover:text-accent-700 disabled:cursor-not-allowed disabled:opacity-30"
-        >
-          <ChevronRight size={18} />
-        </button>
-      )}
+      <button
+        onClick={next}
+        disabled={step === TOTAL_STEPS}
+        className="flex h-8 w-8 items-center justify-center text-slate-500 transition-colors hover:text-accent-700 disabled:cursor-not-allowed disabled:opacity-30"
+      >
+        <ChevronRight size={18} />
+      </button>
     </div>
   );
 }

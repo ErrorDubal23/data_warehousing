@@ -21,7 +21,15 @@ export const useAppStore = create((set, get) => ({
   // -------------------------------------------------------------------
   step: 1,
   goToStep: (step) => set({ step }),
-  next: () => set((s) => ({ step: Math.min(TOTAL_STEPS, s.step + 1) })),
+  // Leaving Historia (step 3) always starts the timer, regardless of whether
+  // the audience advances via its dedicated CTA or the corner nav arrow —
+  // keeping both paths consistent instead of only wiring the side effect
+  // into one specific button.
+  next: () =>
+    set((s) => ({
+      step: Math.min(TOTAL_STEPS, s.step + 1),
+      timerRunning: s.step === 3 ? true : s.timerRunning,
+    })),
   prev: () => set((s) => ({ step: Math.max(1, s.step - 1) })),
 
   // -------------------------------------------------------------------
@@ -29,7 +37,6 @@ export const useAppStore = create((set, get) => ({
   // -------------------------------------------------------------------
   secondsLeft: TOTAL_SECONDS,
   timerRunning: false,
-  startTimer: () => set({ timerRunning: true }),
   tick: () =>
     set((s) => ({ secondsLeft: s.timerRunning ? Math.max(0, s.secondsLeft - 1) : s.secondsLeft })),
 

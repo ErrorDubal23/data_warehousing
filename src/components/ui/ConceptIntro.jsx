@@ -25,15 +25,15 @@ export default function ConceptIntro({
     >
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:gap-3">
         <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
-          <Panel accent="slate-400" texture="dots" className="flex h-full flex-col gap-3 p-6 lg:gap-1.5 lg:p-4">
+          <Panel accent="slate-400" texture="dots" className="flex h-full flex-col gap-3 p-6 lg:gap-2 lg:p-5">
             <div className="flex items-center gap-2">
               <span className="font-mono text-[11px] font-semibold text-slate-400">01</span>
               <BookOpen size={16} className="text-slate-500" strokeWidth={2} />
-              <h3 className="font-display text-base font-bold uppercase tracking-wide text-slate-700 lg:text-sm">
+              <h3 className="font-display text-base font-bold uppercase tracking-wide text-slate-700 lg:text-base">
                 Definición
               </h3>
             </div>
-            <p className="text-base leading-relaxed text-slate-600 lg:text-xs lg:leading-snug">{definition}</p>
+            <p className="text-base leading-relaxed text-slate-600 lg:text-sm lg:leading-snug">{definition}</p>
           </Panel>
         </motion.div>
 
@@ -42,16 +42,16 @@ export default function ConceptIntro({
             accent="accent-600"
             tone="slate"
             texture="grid-animated"
-            className="flex h-full flex-col gap-3 p-6 lg:gap-1.5 lg:p-4"
+            className="flex h-full flex-col gap-3 p-6 lg:gap-2 lg:p-5"
           >
             <div className="flex items-center gap-2">
               <span className="font-mono text-[11px] font-semibold text-accent-600">02</span>
               <Target size={16} className="text-accent-700" strokeWidth={2} />
-              <h3 className="font-display text-base font-bold uppercase tracking-wide text-accent-800 lg:text-sm">
+              <h3 className="font-display text-base font-bold uppercase tracking-wide text-accent-800 lg:text-base">
                 En Multimarket
               </h3>
             </div>
-            <p className="text-base leading-relaxed text-slate-700 lg:text-xs lg:leading-snug">{application}</p>
+            <p className="text-base leading-relaxed text-slate-700 lg:text-sm lg:leading-snug">{application}</p>
           </Panel>
         </motion.div>
       </div>
@@ -59,19 +59,19 @@ export default function ConceptIntro({
       {hasProsCons && (
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:gap-3">
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.22 }}>
-            <Panel accent="signal-clean" className="flex h-full flex-col gap-3 p-6 lg:gap-1.5 lg:p-4">
+            <Panel accent="signal-clean" className="flex h-full flex-col gap-3 p-6 lg:gap-2 lg:p-5">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-[11px] font-semibold text-emerald-700">03</span>
                 <CircleCheck size={16} className="text-emerald-600" strokeWidth={2} />
-                <h3 className="font-display text-base font-bold uppercase tracking-wide text-emerald-800 lg:text-sm">
+                <h3 className="font-display text-base font-bold uppercase tracking-wide text-emerald-800 lg:text-base">
                   Ventajas
                 </h3>
               </div>
-              <ul className="flex flex-col gap-2.5 lg:gap-1">
+              <ul className="flex flex-col gap-2.5 lg:gap-1.5">
                 {ventajas.map((v) => (
                   <li key={v} className="flex items-start gap-2.5 lg:gap-1.5">
                     <CircleCheck size={15} className="mt-0.5 shrink-0 text-emerald-600" strokeWidth={2} />
-                    <span className="text-sm leading-relaxed text-slate-700 lg:text-[11px] lg:leading-snug">{v}</span>
+                    <span className="text-sm leading-relaxed text-slate-700 lg:text-xs lg:leading-snug">{v}</span>
                   </li>
                 ))}
               </ul>
@@ -79,19 +79,19 @@ export default function ConceptIntro({
           </motion.div>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-            <Panel accent="signal-warn" className="flex h-full flex-col gap-3 p-6 lg:gap-1.5 lg:p-4">
+            <Panel accent="signal-warn" className="flex h-full flex-col gap-3 p-6 lg:gap-2 lg:p-5">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-[11px] font-semibold text-orange-700">03</span>
                 <TriangleAlert size={16} className="text-orange-600" strokeWidth={2} />
-                <h3 className="font-display text-base font-bold uppercase tracking-wide text-orange-800 lg:text-sm">
+                <h3 className="font-display text-base font-bold uppercase tracking-wide text-orange-800 lg:text-base">
                   Desventajas
                 </h3>
               </div>
-              <ul className="flex flex-col gap-2.5 lg:gap-1">
+              <ul className="flex flex-col gap-2.5 lg:gap-1.5">
                 {desventajas.map((d) => (
                   <li key={d} className="flex items-start gap-2.5 lg:gap-1.5">
                     <TriangleAlert size={15} className="mt-0.5 shrink-0 text-orange-600" strokeWidth={2} />
-                    <span className="text-sm leading-relaxed text-slate-700 lg:text-[11px] lg:leading-snug">{d}</span>
+                    <span className="text-sm leading-relaxed text-slate-700 lg:text-xs lg:leading-snug">{d}</span>
                   </li>
                 ))}
               </ul>

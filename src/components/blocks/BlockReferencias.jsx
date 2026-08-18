@@ -21,7 +21,7 @@ export default function BlockReferencias() {
   const grupos = groupByCategoria(REFERENCIAS);
 
   return (
-    <div className="mx-auto flex max-w-4xl flex-col gap-10 px-6 py-10 lg:w-full lg:gap-4 lg:py-4">
+    <div className="mx-auto flex max-w-4xl flex-col gap-10 px-6 py-10 lg:w-full lg:gap-6 lg:py-6">
       <SectionHeader
         kicker="Fuentes consultadas"
         title="Referencias"
@@ -37,7 +37,7 @@ export default function BlockReferencias() {
             transition={{ delay: gi * 0.1 }}
             className="flex flex-col gap-3 lg:gap-1"
           >
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-wider text-accent-600 lg:text-[10px]">
+            <p className="font-mono text-[11px] font-semibold uppercase tracking-wider text-accent-600 lg:text-[11px]">
               {grupo.categoria}
             </p>
             <Panel accent="accent-600" className="overflow-hidden p-0">
@@ -46,7 +46,7 @@ export default function BlockReferencias() {
                   <li key={ref.url} className="flex items-start gap-3 p-4 lg:gap-1.5 lg:p-2">
                     <BookMarked size={16} className="mt-0.5 shrink-0 text-slate-400 lg:hidden" strokeWidth={2} />
                     <div className="flex flex-col gap-0.5">
-                      <p className="text-sm leading-relaxed text-slate-700 lg:text-[11px] lg:leading-snug">
+                      <p className="text-sm leading-relaxed text-slate-700 lg:text-xs lg:leading-snug">
                         <strong className="text-slate-900">{ref.autor}</strong>
                         {ref.anio !== "s.f." ? ` (${ref.anio})` : " (s.f.)"}. <em>{ref.titulo}</em>.
                       </p>
@@ -54,7 +54,7 @@ export default function BlockReferencias() {
                         href={ref.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 font-mono text-xs text-accent-600 underline decoration-accent-200 underline-offset-2 transition-colors hover:text-accent-800 hover:decoration-accent-500 lg:text-[10px]"
+                        className="inline-flex items-center gap-1.5 font-mono text-xs text-accent-600 underline decoration-accent-200 underline-offset-2 transition-colors hover:text-accent-800 hover:decoration-accent-500 lg:text-[11px]"
                       >
                         {ref.url.replace(/^https?:\/\//, "")}
                         <ExternalLink size={11} strokeWidth={2} />

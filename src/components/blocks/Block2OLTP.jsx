@@ -180,7 +180,7 @@ export default function Block2OLTP() {
                   </form>
                 </Panel>
 
-                <p className="mt-4 text-sm leading-relaxed text-slate-500 lg:mt-2 lg:text-[11px] lg:leading-snug">
+                <p className="mt-4 text-sm leading-relaxed text-slate-500 lg:mt-2 lg:text-xs lg:leading-snug">
                   Cada fila de la derecha es un evento independiente: sin totales, sin cruces entre sucursales, sin
                   contexto histórico. Así opera un sistema OLTP.
                 </p>
@@ -244,17 +244,17 @@ export default function Block2OLTP() {
                       transition={{ delay: 0.25 + i * 0.08 }}
                       className="flex flex-col gap-2 lg:gap-1"
                     >
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-accent-600 font-display text-base font-bold text-accent-700 lg:h-6 lg:w-6 lg:text-xs">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-accent-600 font-display text-base font-bold text-accent-700 lg:h-6 lg:w-6 lg:text-sm">
                         {p.letra}
                       </div>
-                      <p className="font-display text-sm font-bold text-slate-900 lg:text-xs">{p.nombre}</p>
-                      <p className="text-sm leading-relaxed text-slate-500 lg:text-[11px] lg:leading-snug">
+                      <p className="font-display text-sm font-bold text-slate-900 lg:text-sm">{p.nombre}</p>
+                      <p className="text-sm leading-relaxed text-slate-500 lg:text-xs lg:leading-snug">
                         {p.detalle}
                       </p>
                     </motion.div>
                   ))}
                 </div>
-                <p className="mt-5 border-t border-slate-100 pt-4 text-sm leading-relaxed text-slate-500 lg:mt-2 lg:pt-2 lg:text-[11px] lg:leading-snug">
+                <p className="mt-5 border-t border-slate-100 pt-4 text-sm leading-relaxed text-slate-500 lg:mt-2 lg:pt-2 lg:text-xs lg:leading-snug">
                   Además, cada venta es una operación simple: un <span className="font-mono text-xs">INSERT</span>{" "}
                   sobre una tabla indexada por ID, sin JOINs ni cálculos de por medio. Esa simplicidad es la que
                   permite miles de transacciones por segundo.
