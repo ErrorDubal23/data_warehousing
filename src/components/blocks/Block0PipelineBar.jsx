@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { Database, Workflow, Boxes, BarChart3, Check, Timer } from "lucide-react";
+import { Database, Workflow, Warehouse, BarChart3, Check, Timer } from "lucide-react";
 import { useAppStore } from "../../store/useAppStore";
 import GithubIcon from "../ui/GithubIcon";
 
@@ -8,8 +8,8 @@ const REPO_URL = "https://github.com/ErrorDubal23/data_warehousing";
 
 const STAGES = [
   { step: 4, key: "oltp", label: "OLTP", icon: Database },
-  { step: 5, key: "etl", label: "ETL", icon: Workflow },
-  { step: 7, key: "dw", label: "Data Warehouse", icon: Boxes },
+  { step: 6, key: "etl", label: "ETL", icon: Workflow },
+  { step: 7, key: "dw", label: "Data Warehouse", icon: Warehouse },
   { step: 8, key: "olap", label: "OLAP", icon: BarChart3 },
 ];
 

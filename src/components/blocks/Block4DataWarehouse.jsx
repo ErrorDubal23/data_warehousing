@@ -93,7 +93,7 @@ export default function Block4DataWarehouse() {
     expandedNode === "fact" ? FACT_TABLE : DIMENSIONS.find((d) => d.id === expandedNode) ?? null;
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10">
+    <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10 lg:w-full lg:gap-4 lg:py-4">
       <SectionHeader
         kicker="Bloque 3 del pipeline · Modelado"
         title="Data Warehouse — Esquema Estrella"
@@ -143,8 +143,8 @@ export default function Block4DataWarehouse() {
               )}
             </div>
 
-            <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-5">
-              <div className="relative mx-auto aspect-square w-full max-w-md lg:col-span-3">
+            <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-5 lg:gap-4">
+              <div className="relative mx-auto aspect-square w-full max-w-md lg:col-span-3 lg:max-w-80">
                 <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full" style={{ zIndex: 0 }}>
                   {DIMENSIONS.map((dim) => {
                     const end = LINE_ENDS[dim.position];

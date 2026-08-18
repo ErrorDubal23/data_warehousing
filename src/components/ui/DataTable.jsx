@@ -1,8 +1,8 @@
 // Generic table shell — callers supply <tbody> content (often animated)
 // as children so each block controls its own row transitions.
-export default function DataTable({ columns, children, maxHeight = "22rem", dense = false }) {
+export default function DataTable({ columns, children, maxHeight = "22rem", dense = false, className = "" }) {
   return (
-    <div className="scroll-thin overflow-auto border border-slate-200" style={{ maxHeight }}>
+    <div className={`scroll-thin overflow-auto border border-slate-200 ${className}`} style={{ maxHeight }}>
       <table className="w-full border-collapse text-left">
         <thead className="sticky top-0 z-10 bg-slate-100">
           <tr>

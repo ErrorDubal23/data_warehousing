@@ -16,8 +16,8 @@ let nextTxId = OLTP_SEED.length + 1;
 export const useAppStore = create((set, get) => ({
   // -------------------------------------------------------------------
   // Pipeline navigation
-  // step 1: Portada, 2: Cronograma, 3: Tema, 4: OLTP, 5: ETL,
-  // 6: Caso (Multimarket — puente hacia DW), 7: DW, 8: OLAP, 9: Cierre, 10: Referencias
+  // step 1: Portada, 2: Cronograma, 3: Tema, 4: OLTP,
+  // 5: Caso (Multimarket — puente hacia ETL), 6: ETL, 7: DW, 8: OLAP, 9: Cierre, 10: Referencias
   // -------------------------------------------------------------------
   step: 1,
   goToStep: (step) => set({ step }),

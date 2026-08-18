@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Download, Wand2, UploadCloud, Boxes, ArrowRight, CircleCheck, Copy, BookOpen } from "lucide-react";
+import { Download, Wand2, UploadCloud, Warehouse, ChevronDown, ArrowRight, CircleCheck, Copy, BookOpen } from "lucide-react";
 import { useAppStore } from "../../store/useAppStore";
 import { ETL_DIRTY, PRODUCTOS, SUCURSALES, OLTP_SEED } from "../../data/mockData";
 import { runETL, toDirtyRow } from "../../lib/etl";
@@ -129,7 +129,7 @@ export default function Block3ETL() {
   ];
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10">
+    <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10 lg:w-full lg:gap-4 lg:py-4">
       <SectionHeader
         kicker="Bloque 2 del pipeline · Estandarización"
         title="ETL — Extract, Transform, Load"
@@ -214,7 +214,7 @@ export default function Block3ETL() {
                       ))}
                     </DataTable>
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex justify-end lg:justify-center">
                     <Button variant="primary" icon={ArrowRight} onClick={() => setEtlStep("transform")}>
                       Transformar
                     </Button>
@@ -323,7 +323,7 @@ export default function Block3ETL() {
                     </AnimatePresence>
                   </div>
 
-                  <div className="flex justify-end">
+                  <div className="flex justify-end lg:justify-center">
                     <Button variant="primary" icon={ArrowRight} disabled={!transformed} onClick={() => setEtlStep("load")}>
                       Cargar
                     </Button>
@@ -344,22 +344,30 @@ export default function Block3ETL() {
                       <motion.div
                         key="pre-load"
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: 1, x: 0, scale: 1 }}
-                        exit={{ opacity: 0, x: 140, scale: 0.25 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 90, scale: 0.4 }}
                         transition={{ duration: 0.7, ease: "easeInOut" }}
-                        className="w-full max-w-lg"
+                        className="w-full max-w-2xl"
                       >
                         <Panel accent="signal-clean" className="p-1">
                           <DataTable columns={cleanColumns} dense maxHeight="12rem">
                             {cleaned.map((row) => (
                               <tr key={row.id}>
-                                <td className="px-3 py-2 font-mono text-xs text-emerald-700">{row.fecha}</td>
-                                <td className="px-3 py-2 text-xs text-slate-700">{nombreSucursal(row.sucursal)}</td>
-                                <td className="px-3 py-2 text-xs text-slate-700">{nombreProducto(row.producto)}</td>
-                                <td className="px-3 py-2 font-mono text-xs text-emerald-700">
+                                <td className="px-3 py-2 font-mono text-xs text-emerald-700 whitespace-nowrap">
+                                  {row.fecha}
+                                </td>
+                                <td className="px-3 py-2 text-xs text-slate-700 whitespace-nowrap">
+                                  {nombreSucursal(row.sucursal)}
+                                </td>
+                                <td className="px-3 py-2 text-xs text-slate-700 whitespace-nowrap">
+                                  {nombreProducto(row.producto)}
+                                </td>
+                                <td className="px-3 py-2 text-right font-mono text-xs text-emerald-700">
                                   ${row.monto.toFixed(2)}
                                 </td>
-                                <td className="px-3 py-2 font-mono text-xs text-slate-700">{row.cantidad}</td>
+                                <td className="px-3 py-2 text-right font-mono text-xs text-slate-700">
+                                  {row.cantidad}
+                                </td>
                               </tr>
                             ))}
                           </DataTable>
@@ -387,12 +395,20 @@ export default function Block3ETL() {
                   </AnimatePresence>
 
                   <motion.div
+                    animate={{ y: [0, 6, 0] }}
+                    transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                    className="text-accent-400"
+                  >
+                    <ChevronDown size={20} strokeWidth={2} />
+                  </motion.div>
+
+                  <motion.div
                     animate={loaded ? { scale: [1, 1.15, 1] } : {}}
                     transition={{ duration: 0.5 }}
                     className="flex flex-col items-center gap-2"
                   >
-                    <div className="flex h-20 w-20 items-center justify-center rounded-sm border border-accent-700 bg-accent-800 text-white shadow-sm">
-                      <Boxes size={30} strokeWidth={1.5} />
+                    <div className="flex h-20 w-20 items-center justify-center rounded-lg border border-accent-700 bg-linear-to-b from-accent-700 to-accent-800 text-white shadow-md">
+                      <Warehouse size={32} strokeWidth={1.5} />
                     </div>
                     <span className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
                       Data Warehouse

@@ -42,12 +42,12 @@ const usd = (n) => new Intl.NumberFormat("en-US", { style: "currency", currency:
 
 function Select({ label, value, onChange, options }) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <label className="font-mono text-[11px] uppercase tracking-wider text-slate-500">{label}</label>
+    <div className="flex flex-col gap-1.5 lg:gap-0.5">
+      <label className="font-mono text-[11px] uppercase tracking-wider text-slate-500 lg:text-[10px]">{label}</label>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-accent-600"
+        className="border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 outline-none focus:border-accent-600 lg:py-1 lg:text-xs"
       >
         {options.map((o) => (
           <option key={o} value={o}>
@@ -153,7 +153,7 @@ export default function Block5OLAP() {
   }, [filters.region, filters.trimestre, effectiveData]);
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10">
+    <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10 lg:w-full lg:gap-4 lg:py-4">
       <SectionHeader
         kicker="Bloque 4 del pipeline · Análisis"
         title="OLAP — Análisis Multidimensional"
@@ -186,7 +186,7 @@ export default function Block5OLAP() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="flex flex-col gap-6"
+            className="flex flex-col gap-6 lg:gap-2"
           >
             <button
               onClick={() => setPhase("concept")}
@@ -197,15 +197,20 @@ export default function Block5OLAP() {
             </button>
 
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-              <Panel accent="accent-600" tone="slate" texture="grid-animated" className="flex flex-col gap-2 p-6">
-                <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent-600">
+              <Panel
+                accent="accent-600"
+                tone="slate"
+                texture="grid-animated"
+                className="flex flex-col gap-2 p-6 lg:gap-0 lg:p-2.5"
+              >
+                <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent-600 lg:text-[10px]">
                   Respondiendo la pregunta original
                 </p>
-                <div className="flex flex-wrap items-baseline gap-3">
-                  <span className="font-display text-4xl font-bold text-slate-900">
+                <div className="flex flex-wrap items-baseline gap-3 lg:gap-2">
+                  <span className="font-display text-4xl font-bold text-slate-900 lg:text-xl">
                     <AnimatedNumber value={heroTotal} formatter={usd} />
                   </span>
-                  <span className="text-sm text-slate-600">
+                  <span className="text-sm text-slate-600 lg:text-[11px]">
                     vendidos en <strong className="text-slate-800">Región {filters.region}</strong> durante{" "}
                     <strong className="text-slate-800">{filters.trimestre}</strong>
                     {filters.producto !== "Todos" && (
@@ -219,12 +224,12 @@ export default function Block5OLAP() {
               </Panel>
             </motion.div>
 
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:gap-3">
               <div className="lg:col-span-1">
-                <Panel accent="accent-600" className="flex flex-col gap-5 p-5">
+                <Panel accent="accent-600" className="flex flex-col gap-5 p-5 lg:gap-2 lg:p-2.5">
                   <div className="flex items-center gap-2">
                     <SlidersHorizontal size={16} className="text-accent-700" strokeWidth={2} />
-                    <h3 className="font-display text-sm font-bold text-slate-900">Filtros</h3>
+                    <h3 className="font-display text-sm font-bold text-slate-900 lg:text-xs">Filtros</h3>
                   </div>
                   <Select
                     label="Región"
@@ -256,14 +261,15 @@ export default function Block5OLAP() {
               </div>
 
               <div className="lg:col-span-3">
-                <Panel accent="accent-600" className="p-5">
-                  <div className="mb-4 flex items-center gap-2">
+                <Panel accent="accent-600" className="p-5 lg:p-2.5">
+                  <div className="mb-4 flex items-center gap-2 lg:mb-1">
                     <TrendingUp size={16} className="text-accent-700" strokeWidth={2} />
-                    <h3 className="font-display text-sm font-bold text-slate-900">
+                    <h3 className="font-display text-sm font-bold text-slate-900 lg:text-xs">
                       Ventas por {drillDown ? "mes" : "trimestre"}
                     </h3>
                   </div>
-                  <ResponsiveContainer width="100%" height={360}>
+                  <div className="h-90 lg:h-40">
+                  <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={chartData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="var(--color-slate-200)" vertical={false} />
                       <XAxis
@@ -286,17 +292,19 @@ export default function Block5OLAP() {
                       </Bar>
                     </BarChart>
                   </ResponsiveContainer>
+                  </div>
                 </Panel>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-              <Panel accent="accent-600" className="p-5">
-                <div className="mb-4 flex items-center gap-2">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-3">
+              <Panel accent="accent-600" className="p-5 lg:p-2.5">
+                <div className="mb-4 flex items-center gap-2 lg:mb-1">
                   <Activity size={16} className="text-accent-700" strokeWidth={2} />
-                  <h3 className="font-display text-sm font-bold text-slate-900">Tendencia mensual</h3>
+                  <h3 className="font-display text-sm font-bold text-slate-900 lg:text-xs">Tendencia mensual</h3>
                 </div>
-                <ResponsiveContainer width="100%" height={260}>
+                <div className="h-65 lg:h-28">
+                <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={monthlyTrend} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--color-slate-200)" vertical={false} />
                     <XAxis
@@ -325,39 +333,44 @@ export default function Block5OLAP() {
                     />
                   </LineChart>
                 </ResponsiveContainer>
+                </div>
               </Panel>
 
-              <Panel accent="accent-600" className="p-5">
-                <div className="mb-4 flex items-center gap-2">
+              <Panel accent="accent-600" className="p-5 lg:p-2.5">
+                <div className="mb-4 flex items-center gap-2 lg:mb-1">
                   <ChartPie size={16} className="text-accent-700" strokeWidth={2} />
-                  <h3 className="font-display text-sm font-bold text-slate-900">Participación por categoría</h3>
+                  <h3 className="font-display text-sm font-bold text-slate-900 lg:text-xs">
+                    Participación por categoría
+                  </h3>
                 </div>
-                <div className="flex flex-col items-center gap-3 sm:flex-row">
-                  <ResponsiveContainer width="100%" height={220} className="sm:flex-1">
-                    <PieChart>
-                      <Tooltip content={<CategoryTooltip />} />
-                      <Pie
-                        data={categoryShare}
-                        dataKey="value"
-                        nameKey="name"
-                        innerRadius={50}
-                        outerRadius={80}
-                        paddingAngle={2}
-                        stroke="#ffffff"
-                        strokeWidth={2}
-                        animationDuration={500}
-                      >
-                        {categoryShare.map((entry) => (
-                          <Cell key={entry.name} fill={CATEGORY_COLORS[entry.name] ?? "var(--color-slate-300)"} />
-                        ))}
-                      </Pie>
-                    </PieChart>
-                  </ResponsiveContainer>
-                  <ul className="flex flex-col gap-1.5 sm:w-40">
+                <div className="flex flex-col items-center gap-3 sm:flex-row lg:gap-1">
+                  <div className="h-55 w-full lg:h-28 sm:flex-1">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Tooltip content={<CategoryTooltip />} />
+                        <Pie
+                          data={categoryShare}
+                          dataKey="value"
+                          nameKey="name"
+                          innerRadius="55%"
+                          outerRadius="90%"
+                          paddingAngle={2}
+                          stroke="#ffffff"
+                          strokeWidth={2}
+                          animationDuration={500}
+                        >
+                          {categoryShare.map((entry) => (
+                            <Cell key={entry.name} fill={CATEGORY_COLORS[entry.name] ?? "var(--color-slate-300)"} />
+                          ))}
+                        </Pie>
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <ul className="flex flex-col gap-1.5 sm:w-40 lg:gap-0.5">
                     {categoryShare.map((entry) => (
-                      <li key={entry.name} className="flex items-center gap-2 text-xs text-slate-600">
+                      <li key={entry.name} className="flex items-center gap-2 text-xs text-slate-600 lg:gap-1 lg:text-[10px]">
                         <span
-                          className="h-2.5 w-2.5 shrink-0 rounded-full"
+                          className="h-2.5 w-2.5 shrink-0 rounded-full lg:h-1.5 lg:w-1.5"
                           style={{ backgroundColor: CATEGORY_COLORS[entry.name] ?? "var(--color-slate-300)" }}
                         />
                         {entry.name}

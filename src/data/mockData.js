@@ -130,16 +130,16 @@ export const AGENDA = [
     minutos: 3,
   },
   {
+    icon: "alert",
+    titulo: "El problema",
+    detalle: "Un OLTP por sucursal, sin integración entre sí",
+    minutos: 1,
+  },
+  {
     icon: "workflow",
     titulo: "ETL",
     detalle: "Extract, Transform, Load — la limpieza",
     minutos: 4,
-  },
-  {
-    icon: "alert",
-    titulo: "El problema",
-    detalle: "Por qué no basta con OLTP + ETL",
-    minutos: 1,
   },
   {
     icon: "boxes",

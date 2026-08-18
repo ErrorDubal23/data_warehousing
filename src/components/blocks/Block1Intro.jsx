@@ -22,25 +22,25 @@ export default function Block1Intro() {
   const next = useAppStore((s) => s.next);
 
   return (
-    <div className="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-10">
+    <div className="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-10 lg:w-full lg:gap-4 lg:py-4">
       <SectionHeader
         kicker="El problema que persiste"
         title="Multimarket"
-        subtitle="OLTP ya captura. ETL ya limpia. Pero esto sigue sin resolverse."
+        subtitle="Ya viste un sistema OLTP capturar una venta. El problema es que Multimarket no tiene solo uno."
       />
 
       <motion.p
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="max-w-3xl text-base leading-relaxed text-slate-600"
+        className="max-w-3xl text-base leading-relaxed text-slate-600 lg:text-xs lg:leading-snug"
       >
-        Ya viste el desorden de un solo lote en ETL. Multiplícalo por cada sucursal: Multimarket tiene presencia en
-        cuatro regiones, y cada una sigue operando como si fuera la única tienda del mundo — su propio punto de
-        venta, su propio formato de fecha, sin ninguna integración entre sí.
+        Multiplica esa caja registradora por cada sucursal: Multimarket tiene presencia en cuatro regiones, y cada
+        una opera con su propio sistema OLTP, como si fuera la única tienda del mundo — su propio punto de venta, su
+        propio formato de fecha, sin ninguna integración entre sí.
       </motion.p>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 lg:gap-3">
         {SUCURSALES_SILO.map((suc, i) => (
           <motion.div
             key={suc.nombre}
@@ -60,10 +60,10 @@ export default function Block1Intro() {
                 </motion.div>
               }
             >
-              <div className="flex h-full flex-col gap-3 p-5">
-                <Server className="text-slate-400" size={22} strokeWidth={1.5} />
-                <p className="font-display text-sm font-bold text-slate-800">{suc.nombre}</p>
-                <div className="flex flex-col gap-1 font-mono text-xs text-slate-500">
+              <div className="flex h-full flex-col gap-3 p-5 lg:gap-1.5 lg:p-3">
+                <Server className="text-slate-400 lg:hidden" size={22} strokeWidth={1.5} />
+                <p className="font-display text-sm font-bold text-slate-800 lg:text-xs">{suc.nombre}</p>
+                <div className="flex flex-col gap-1 font-mono text-xs text-slate-500 lg:text-[10px]">
                   <span>{suc.detalle}</span>
                   <span>{suc.moneda}</span>
                 </div>
@@ -74,17 +74,19 @@ export default function Block1Intro() {
       </div>
 
       <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }}>
-        <Panel accent="signal-warn" className="p-5">
-          <p className="mb-3 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+        <Panel accent="signal-warn" className="p-5 lg:p-3">
+          <p className="mb-3 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-400 lg:mb-1.5">
             El costo de operar así
           </p>
-          <ul className="flex flex-col gap-3">
+          <ul className="flex flex-col gap-3 lg:gap-1">
             {CONSECUENCIAS.map((c) => {
               const Icon = c.icon;
               return (
-                <li key={c.texto} className="flex items-start gap-3">
+                <li key={c.texto} className="flex items-start gap-3 lg:gap-1.5">
                   <Icon size={16} className="mt-0.5 shrink-0 text-signal-warn" strokeWidth={2} />
-                  <span className="text-sm leading-relaxed text-slate-700">{c.texto}</span>
+                  <span className="text-sm leading-relaxed text-slate-700 lg:text-[11px] lg:leading-snug">
+                    {c.texto}
+                  </span>
                 </li>
               );
             })}
@@ -93,11 +95,11 @@ export default function Block1Intro() {
       </motion.div>
 
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
-        <Panel accent="accent-600" tone="slate" texture="grid-animated" className="p-8">
+        <Panel accent="accent-600" tone="slate" texture="grid-animated" className="p-8 lg:p-3">
           <p className="font-mono text-xs font-medium uppercase tracking-[0.2em] text-accent-600">
             La pregunta que nadie puede responder
           </p>
-          <p className="mt-3 font-display text-2xl font-bold leading-snug text-slate-900 sm:text-3xl">
+          <p className="mt-3 font-display text-2xl font-bold leading-snug text-slate-900 sm:text-3xl lg:mt-1 lg:text-lg">
             "¿Cuánto vendimos el trimestre pasado en la región norte?"
           </p>
         </Panel>
@@ -107,10 +109,10 @@ export default function Block1Intro() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.85 }}
-        className="text-center text-sm text-slate-500"
+        className="text-center text-sm text-slate-500 lg:text-xs"
       >
-        La pregunta que llevó a Multimarket a proponer el modelo OLAP en los 90. Ya capturamos el dato y lo
-        limpiamos — ahora falta consolidarlo y responderla.
+        La pregunta que llevó a Multimarket a proponer el modelo OLAP en los 90. Ya capturamos el dato — ahora falta
+        limpiarlo, consolidarlo y responderla.
       </motion.p>
 
       <motion.div
@@ -120,7 +122,7 @@ export default function Block1Intro() {
         className="flex justify-center"
       >
         <Button variant="primary" icon={ArrowRight} onClick={next}>
-          Continuar con Data Warehouse
+          Continuar con ETL
         </Button>
       </motion.div>
     </div>

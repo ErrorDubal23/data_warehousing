@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Database, Workflow, Boxes, BarChart3, MessageCircleQuestion } from "lucide-react";
+import { Database, Workflow, Warehouse, BarChart3, MessageCircleQuestion } from "lucide-react";
 import { COMPARISON_ROWS } from "../../data/mockData";
 import Panel from "../ui/Panel";
 import Button from "../ui/Button";
@@ -9,7 +9,7 @@ import SectionHeader from "../ui/SectionHeader";
 const COLUMNS = [
   { key: "oltp", label: "OLTP", icon: Database, tone: "text-slate-700" },
   { key: "etl", label: "ETL", icon: Workflow, tone: "text-slate-700" },
-  { key: "dw", label: "Data Warehouse", icon: Boxes, tone: "text-slate-700" },
+  { key: "dw", label: "Data Warehouse", icon: Warehouse, tone: "text-slate-700" },
   { key: "olap", label: "OLAP", icon: BarChart3, tone: "text-accent-800" },
 ];
 
@@ -17,7 +17,7 @@ export default function Block6Closing() {
   const [openQuestions, setOpenQuestions] = useState(false);
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10">
+    <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10 lg:w-full lg:gap-4 lg:py-4">
       <SectionHeader
         kicker="Síntesis"
         title="El pipeline, de punta a punta"
@@ -28,7 +28,7 @@ export default function Block6Closing() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
-        className="max-w-3xl text-base leading-relaxed text-slate-600"
+        className="max-w-3xl text-base leading-relaxed text-slate-600 lg:text-xs lg:leading-snug"
       >
         Gracias a este modelo, Multimarket pasó de operar sucursal por sucursal a tener una sola fuente de verdad —
         el mismo salto que, décadas después, le permitió expandirse a todo el país y, más tarde, cruzar fronteras sin
@@ -43,18 +43,20 @@ export default function Block6Closing() {
       >
         <Panel accent="accent-600" className="min-w-180 overflow-hidden p-0">
           <div className="grid grid-cols-5 border-b border-slate-200 bg-slate-50">
-            <div className="px-4 py-4" />
+            <div className="px-4 py-4 lg:py-2" />
             {COLUMNS.map((col, i) => {
               const Icon = col.icon;
               return (
-                <div key={col.key} className="flex items-center gap-2 border-l border-slate-200 px-4 py-4">
+                <div key={col.key} className="flex items-center gap-2 border-l border-slate-200 px-4 py-4 lg:py-2">
                   <motion.div
                     animate={{ y: [0, -2, 0] }}
                     transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
                   >
                     <Icon size={15} className={col.tone} strokeWidth={2} />
                   </motion.div>
-                  <span className={`font-display text-xs font-bold sm:text-sm ${col.tone}`}>{col.label}</span>
+                  <span className={`font-display text-xs font-bold sm:text-sm lg:text-xs ${col.tone}`}>
+                    {col.label}
+                  </span>
                 </div>
               );
             })}
@@ -67,13 +69,13 @@ export default function Block6Closing() {
               transition={{ delay: i * 0.06 }}
               className="grid grid-cols-5 border-b border-slate-100 last:border-b-0"
             >
-              <div className="px-4 py-3.5 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+              <div className="px-4 py-3.5 font-mono text-[11px] font-semibold uppercase tracking-wider text-slate-500 lg:py-1.5 lg:text-[10px]">
                 {row.label}
               </div>
               {COLUMNS.map((col) => (
                 <div
                   key={col.key}
-                  className={`border-l border-slate-100 px-4 py-3.5 font-mono text-[12px] leading-relaxed text-slate-700 ${
+                  className={`border-l border-slate-100 px-4 py-3.5 font-mono text-[12px] leading-relaxed text-slate-700 lg:py-1.5 lg:text-[10px] lg:leading-snug ${
                     col.key === "olap" ? "bg-accent-50/30" : ""
                   }`}
                 >
@@ -85,7 +87,7 @@ export default function Block6Closing() {
         </Panel>
       </motion.div>
 
-      <div className="flex flex-col items-center gap-6 pt-4">
+      <div className="flex flex-col items-center gap-6 pt-4 lg:gap-2 lg:pt-1">
         <Button variant="secondary" icon={MessageCircleQuestion} onClick={() => setOpenQuestions((v) => !v)}>
           Abrir espacio para preguntas
         </Button>
@@ -97,9 +99,11 @@ export default function Block6Closing() {
               exit={{ opacity: 0, height: 0 }}
               className="w-full max-w-md overflow-hidden"
             >
-              <Panel accent="accent-600" tone="slate" texture="dots" className="p-6 text-center">
-                <p className="font-display text-base font-bold text-slate-900">Gracias por su atención</p>
-                <p className="mt-1 text-sm text-slate-600">El pipeline OLTP → ETL → Data Warehouse → OLAP queda abierto a preguntas.</p>
+              <Panel accent="accent-600" tone="slate" texture="dots" className="p-6 text-center lg:p-3">
+                <p className="font-display text-base font-bold text-slate-900 lg:text-sm">Gracias por su atención</p>
+                <p className="mt-1 text-sm text-slate-600 lg:text-[11px]">
+                  El pipeline OLTP → ETL → Data Warehouse → OLAP queda abierto a preguntas.
+                </p>
               </Panel>
             </motion.div>
           )}

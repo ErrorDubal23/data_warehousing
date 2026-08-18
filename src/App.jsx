@@ -14,16 +14,17 @@ import Block6Closing from "./components/blocks/Block6Closing";
 import BlockReferencias from "./components/blocks/BlockReferencias";
 import AmbientBackground from "./components/ui/AmbientBackground";
 
-// Multimarket (Block1Intro) sits at step 6 now, as the bridge between ETL and
-// Data Warehouse — the audience has already seen OLTP capture and ETL clean
-// a batch, so this is where "but the bigger problem is still unsolved" lands.
+// Multimarket (Block1Intro) sits at step 5, between OLTP and ETL — the
+// audience has just seen one OLTP system capture one sale, so this is where
+// that gets multiplied into a mess of siloed OLTP systems across branches,
+// setting up exactly the problem ETL is about to solve.
 const BLOCKS = {
   1: BlockPortada,
   2: BlockCronograma,
   3: BlockTemaIntro,
   4: Block2OLTP,
-  5: Block3ETL,
-  6: Block1Intro,
+  5: Block1Intro,
+  6: Block3ETL,
   7: Block4DataWarehouse,
   8: Block5OLAP,
   9: Block6Closing,
@@ -93,7 +94,9 @@ export default function App() {
     <div className="min-h-screen bg-white">
       <AmbientBackground />
       <Block0PipelineBar />
-      <main className={`relative z-10 min-h-screen pt-16 transition-colors duration-500 ${BG_BY_STEP[step]}`}>
+      <main
+        className={`relative z-10 min-h-screen pt-16 transition-colors duration-500 lg:h-screen lg:overflow-hidden ${BG_BY_STEP[step]}`}
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
@@ -101,6 +104,7 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -24 }}
             transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="lg:flex lg:h-full lg:flex-col lg:justify-center"
           >
             <ActiveBlock />
           </motion.div>

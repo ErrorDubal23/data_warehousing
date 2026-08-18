@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 export default function SectionHeader({ kicker, title, subtitle, align = "left" }) {
   const alignClass = align === "center" ? "items-center text-center" : "items-start text-left";
   return (
-    <div className={`flex flex-col gap-4 ${alignClass}`}>
+    <div className={`flex flex-col gap-4 lg:gap-2 ${alignClass}`}>
       {kicker && (
         <motion.span
           initial={{ opacity: 0, y: -6 }}
@@ -17,7 +17,7 @@ export default function SectionHeader({ kicker, title, subtitle, align = "left" 
         initial={{ opacity: 0, y: 10, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ delay: 0.06, type: "spring", stiffness: 260, damping: 22 }}
-        className="font-display text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl"
+        className="font-display text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl lg:text-3xl"
       >
         {title}
       </motion.h2>
@@ -26,7 +26,7 @@ export default function SectionHeader({ kicker, title, subtitle, align = "left" 
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="max-w-2xl text-lg leading-relaxed text-slate-600"
+          className="max-w-2xl text-lg leading-relaxed text-slate-600 lg:text-sm"
         >
           {subtitle}
         </motion.p>

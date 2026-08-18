@@ -66,7 +66,7 @@ export default function Block2OLTP() {
   };
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10">
+    <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10 lg:w-full lg:gap-4 lg:py-4">
       <SectionHeader
         kicker="Bloque 1 del pipeline · Captura"
         title="OLTP — Sistema Transaccional"
@@ -99,7 +99,7 @@ export default function Block2OLTP() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="flex flex-col gap-4"
+            className="flex flex-col gap-4 lg:gap-2"
           >
             <div className="flex flex-wrap items-center justify-between gap-3">
               <button
@@ -119,15 +119,15 @@ export default function Block2OLTP() {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
+            <div className="grid grid-cols-1 gap-8 lg:grid-cols-5 lg:gap-4">
               <div className="lg:col-span-2">
-                <Panel accent="accent-600" className="p-6">
-                  <div className="mb-5 flex items-center gap-2">
+                <Panel accent="accent-600" className="p-6 lg:p-3">
+                  <div className="mb-5 flex items-center gap-2 lg:mb-2">
                     <Database className="text-accent-700" size={18} strokeWidth={2} />
-                    <h3 className="font-display text-base font-bold text-slate-900">Nueva transacción</h3>
+                    <h3 className="font-display text-base font-bold text-slate-900 lg:text-sm">Nueva transacción</h3>
                   </div>
-                  <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-1.5">
+                  <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4 lg:gap-2">
+                    <div className="flex flex-col gap-1.5 lg:gap-1">
                       <label className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
                         Producto
                       </label>
@@ -143,7 +143,7 @@ export default function Block2OLTP() {
                       </select>
                     </div>
 
-                    <div className="flex flex-col gap-1.5">
+                    <div className="flex flex-col gap-1.5 lg:gap-1">
                       <label className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
                         Sucursal
                       </label>
@@ -159,7 +159,7 @@ export default function Block2OLTP() {
                       </select>
                     </div>
 
-                    <div className="flex flex-col gap-1.5">
+                    <div className="flex flex-col gap-1.5 lg:gap-1">
                       <label className="font-mono text-[11px] uppercase tracking-wider text-slate-500">
                         Cantidad
                       </label>
@@ -180,14 +180,14 @@ export default function Block2OLTP() {
                   </form>
                 </Panel>
 
-                <p className="mt-4 text-sm leading-relaxed text-slate-500">
+                <p className="mt-4 text-sm leading-relaxed text-slate-500 lg:mt-2 lg:text-[11px] lg:leading-snug">
                   Cada fila de la derecha es un evento independiente: sin totales, sin cruces entre sucursales, sin
                   contexto histórico. Así opera un sistema OLTP.
                 </p>
               </div>
 
               <div className="lg:col-span-3">
-                <div className="mb-3 flex items-center justify-between">
+                <div className="mb-3 flex items-center justify-between lg:mb-1.5">
                   <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-slate-500">
                     Tabla_Ventas
                     <Badge tone="accent">en vivo</Badge>
@@ -196,7 +196,7 @@ export default function Block2OLTP() {
                     <AnimatedNumber value={transactions.length} /> registros
                   </span>
                 </div>
-                <DataTable columns={COLUMNS} maxHeight="26rem">
+                <DataTable columns={COLUMNS} maxHeight="26rem" className="lg:max-h-56!">
                   <AnimatePresence initial={false}>
                     {transactions.map((tx) => {
                       const isNew = tx.id === lastAddedId;
@@ -228,29 +228,33 @@ export default function Block2OLTP() {
             </div>
 
             <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-              <Panel accent="accent-600" className="p-6">
-                <div className="mb-5 flex items-center gap-2">
+              <Panel accent="accent-600" className="p-6 lg:p-3">
+                <div className="mb-5 flex items-center gap-2 lg:mb-2">
                   <ShieldCheck className="text-accent-700" size={18} strokeWidth={2} />
-                  <h3 className="font-display text-base font-bold text-slate-900">Por dentro: transacciones ACID</h3>
+                  <h3 className="font-display text-base font-bold text-slate-900 lg:text-sm">
+                    Por dentro: transacciones ACID
+                  </h3>
                 </div>
-                <div className="grid grid-cols-2 gap-5 md:grid-cols-4">
+                <div className="grid grid-cols-2 gap-5 md:grid-cols-4 lg:gap-2">
                   {ACID.map((p, i) => (
                     <motion.div
                       key={p.letra}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.25 + i * 0.08 }}
-                      className="flex flex-col gap-2"
+                      className="flex flex-col gap-2 lg:gap-1"
                     >
-                      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-accent-600 font-display text-base font-bold text-accent-700">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-full border border-accent-600 font-display text-base font-bold text-accent-700 lg:h-6 lg:w-6 lg:text-xs">
                         {p.letra}
                       </div>
-                      <p className="font-display text-sm font-bold text-slate-900">{p.nombre}</p>
-                      <p className="text-sm leading-relaxed text-slate-500">{p.detalle}</p>
+                      <p className="font-display text-sm font-bold text-slate-900 lg:text-xs">{p.nombre}</p>
+                      <p className="text-sm leading-relaxed text-slate-500 lg:text-[11px] lg:leading-snug">
+                        {p.detalle}
+                      </p>
                     </motion.div>
                   ))}
                 </div>
-                <p className="mt-5 border-t border-slate-100 pt-4 text-sm leading-relaxed text-slate-500">
+                <p className="mt-5 border-t border-slate-100 pt-4 text-sm leading-relaxed text-slate-500 lg:mt-2 lg:pt-2 lg:text-[11px] lg:leading-snug">
                   Además, cada venta es una operación simple: un <span className="font-mono text-xs">INSERT</span>{" "}
                   sobre una tabla indexada por ID, sin JOINs ni cálculos de por medio. Esa simplicidad es la que
                   permite miles de transacciones por segundo.
